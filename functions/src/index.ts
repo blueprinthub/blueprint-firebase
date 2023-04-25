@@ -1,75 +1,19 @@
-/* eslint-disable require-jsdoc */
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
-import axios from "axios";
+import "reflect-metadata";
+import {container} from "tsyringe";
+import {configFactory} from "./common/config/config.service";
+import {firestore} from "./common/firestore/firestore.service";
 
-admin.initializeApp();
-const proofHubApiKey = "51fe151c00e53030a107b433b7da61337cb9192f";
+container.register("config", {useFactory: configFactory});
+container.register("firestore", {useValue: firestore});
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+// AuthenticatorsModule
+import authRoutes from "./modules/authenticators/authenticators.module";
+export const authenticators = authRoutes;
 
-export const createUser = functions.auth.user().onCreate((user) => {
-  const { uid, email, displayName } = user;
+// UsersModule
+import userRoutes from "./modules/users/users.module";
+export const users = userRoutes;
 
-  return admin.firestore().collection("users").doc(uid).set({
-    email: email,
-    name: displayName,
-  });
-});
-
-export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", { structuredData: true });
-  response.send("Hello from Firebase!");
-});
-
-export const getProofHubTasks = functions.https.onRequest(
-  async (request, response) => {
-    return await getPendingTasks();
-  }
-);
-
-async function getPendingTasks() {
-  try {
-    const projects = await getProjects();
-
-    const tasksArray = await Promise.all(
-      projects.map(async (project) => {
-        const tasks = await getTasks(project.id);
-        return tasks;
-      })
-    );
-
-    // Utilizamos flat para aplanar el arreglo multidimensional
-    // de tareas obtenidas de cada proyecto
-    const pendingTasks = tasksArray.flat();
-
-    return pendingTasks;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function getProjects() {
-  const url = "https://api.proofhub.com/v3/projects";
-
-  const headers = {
-    Authorization: `Bearer ${proofHubApiKey}`,
-  };
-
-  const response = await axios.get(url, { headers });
-
-  return response.data;
-}
-
-async function getTasks(projectId: string) {
-  const url = `https://api.proofhub.com/v3/projects/${projectId}/tasks?completed=false`;
-
-  const headers = {
-    Authorization: `Bearer ${proofHubApiKey}`,
-  };
-
-  const response = await axios.get(url, { headers });
-
-  return response.data.tasks;
-}
+// TasksModule
+import tasksRoutes from "./modules/tasks/tasks.module";
+export const tasks = tasksRoutes;
