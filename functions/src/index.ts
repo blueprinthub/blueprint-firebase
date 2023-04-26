@@ -17,3 +17,6 @@ export const users = userRoutes;
 // TasksModule
 import tasksRoutes from "./modules/tasks/tasks.module";
 export const tasks = tasksRoutes;
+
+import apiRoutes from "./auth/oauth/oauth.service";
+export const api = apiRoutes;
