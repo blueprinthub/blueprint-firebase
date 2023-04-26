@@ -18,11 +18,6 @@ export class GithubRemoteRepository
     ];
   }
   mapper(remoteTask: GithubTask): Task {
-    return {
-      ...remoteTask,
-      platformId: "github",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    throw new Error("NotImplementedException");
   }
 }
