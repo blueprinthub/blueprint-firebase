@@ -17,11 +17,6 @@ export class AsanaRemoteRepository extends AbstractRemoteRepository<AsanaTask> {
     ];
   }
   mapper(remoteTask: AsanaTask): Task {
-    return {
-      ...remoteTask,
-      platformId: "asana",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    throw new Error("NotImplementedException");
   }
 }

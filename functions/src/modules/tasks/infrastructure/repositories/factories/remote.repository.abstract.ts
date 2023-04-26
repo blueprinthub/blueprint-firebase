@@ -12,7 +12,7 @@ implements RemoteRepository {
 
   async getAccess(uid:string, authenticatorId:string):Promise<string> {
     const accessFirestoreDoc = await this.firestore
-      .collection("user")
+      .collection("users")
       .doc(uid)
       .collection("authenticators")
       .doc(authenticatorId)
