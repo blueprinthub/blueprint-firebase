@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "polletask-dev"
-  }
+    "develop": "polletask-dev",
+    "staging": "blueprint-stg",
+    "main": "blueprint-384623"
+  },
+  "targets": {},
+  "etags": {}
 }
