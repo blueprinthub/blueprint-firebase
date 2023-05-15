@@ -13,8 +13,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          registry-url: "https://registry.npmjs.org/"
-          cache: "yarn"
       - name: Install Dependencies
         run: cd ./functions && yarn install --frozen-lockfile
       - name: Run ESlint
@@ -31,8 +29,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          registry-url: "https://registry.npmjs.org/"
-          cache: "yarn"
       - name: Install Dependencies
         run: cd ./functions && yarn install --frozen-lockfile
       - name: Run Build
