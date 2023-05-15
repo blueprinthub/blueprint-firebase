@@ -15,7 +15,7 @@ jobs:
           node-version: 16
           registry-url: "https://registry.npmjs.org/"
           cache: "yarn"
-        working-directory: ./functions
+          working-directory: ./functions
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
         working-directory: ./functions
@@ -36,7 +36,7 @@ jobs:
           node-version: 16
           registry-url: "https://registry.npmjs.org/"
           cache: "yarn"
-        working-directory: ./functions
+          working-directory: ./functions
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
         working-directory: ./functions
