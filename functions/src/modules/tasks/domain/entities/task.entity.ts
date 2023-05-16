@@ -7,8 +7,8 @@ export interface Task{
   estimatedTime?:number; // time in milliseconds
   description:string;
   isCompleted:boolean;
-  createdAt:Date;
-  updatedAt:Date;
+  createdAt?:Date;
+  updatedAt?:Date;
   dueDate?:Date
   permalink:string;
   startDate:Date;
