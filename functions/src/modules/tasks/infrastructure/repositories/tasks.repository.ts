@@ -12,12 +12,6 @@ export class FirestoreTasksRepository implements TasksRepository {
   async add(tasks: Task[], uid: string): Promise<void> {
     const batch = this.firestore.batch();
     tasks.forEach((task) => {
-      if (!task.createdAt) {
-        task.createdAt = new Date();
-      }
-      if (!task.updatedAt) {
-        task.updatedAt = new Date();
-      }
       const taskRef = this.firestore
         .collection("users")
         .doc(uid)
