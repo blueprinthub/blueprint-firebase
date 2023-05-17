@@ -54,6 +54,7 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
+		"coverageReporters":["lcov"],
     "testEnvironment": "node"
   },
   "private": true
