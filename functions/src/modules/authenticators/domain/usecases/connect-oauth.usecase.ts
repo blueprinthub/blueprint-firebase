@@ -16,7 +16,6 @@ export class ConnectOAuth {
     const user = await this.oauthRepo.getUser(accessWithoutUser);
 
     const access = {...accessWithoutUser, user};
-    console.log({access});
 
     await this.accessRepo.save(access, uid);
   }
