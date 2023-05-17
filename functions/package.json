@@ -16,6 +16,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "asana": "^1.0.2",
+    "generate-api-key": "^1.0.2",
     "axios": "^1.4.0",
     "firebase-admin": "^11.8.0",
     "firebase-functions": "^4.4.0",
