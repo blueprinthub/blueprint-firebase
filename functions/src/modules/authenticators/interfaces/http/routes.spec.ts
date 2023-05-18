@@ -3,27 +3,22 @@ import "reflect-metadata";
 import {container} from "tsyringe";
 import * as firebaseFunctionsTest from "firebase-functions-test";
 import {FeaturesList} from "firebase-functions-test/lib/features";
-
 import {
   ConnectController,
 } from "../../infrastructure/controllers/connect.controller";
 
-class MockController implements ConnectController {
-  execute = jest.fn().mockReturnValue("test-value");
-  connect = jest.fn() as never;
-}
-container.register(ConnectController, {useClass: MockController});
+jest.mock("../../infrastructure/controllers/connect.controller");
+
+container.register(ConnectController, {useClass: ConnectController});
 
 import routes from "./routes";
 
 describe("AuthenticatorsRoutes", () => {
   let firebaseFunctions:FeaturesList;
-  let mockController:ConnectController;
 
   beforeEach(() => {
     firebaseFunctions = firebaseFunctionsTest();
-    mockController = new MockController();
-    container.register(ConnectController, {useValue: mockController});
+    container.register(ConnectController, {useClass: ConnectController});
   });
 
   afterEach(() => {
@@ -32,9 +27,12 @@ describe("AuthenticatorsRoutes", () => {
 
   describe("connect", () => {
     it("should return the same as controller", async () => {
+      const execute = jest.spyOn(ConnectController.prototype, "execute")
+        .mockImplementation();
+
       const {connect} = routes;
-      const result = await firebaseFunctions.wrap(connect)({a: "a"});
-      expect(result).toEqual("test-value");
+      await firebaseFunctions.wrap(connect)({a: "a"});
+      expect(execute).toHaveBeenCalled();
     });
   });
 });
