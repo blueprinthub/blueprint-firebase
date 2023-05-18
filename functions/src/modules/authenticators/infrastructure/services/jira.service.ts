@@ -17,6 +17,11 @@ export class JiraOAuthStrategy implements OAuth2Repository {
         client_secret: this.config.get<string>("jira.clientSecret"),
         redirect_uri: this.config.get<string>("jira.redirectURI"),
         code: claim.code,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+        },
       });
     return {
       accessToken: data.access_token,
