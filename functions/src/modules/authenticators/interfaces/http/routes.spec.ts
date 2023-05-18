@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import "reflect-metadata";
 import {container} from "tsyringe";
 import * as firebaseFunctionsTest from "firebase-functions-test";
