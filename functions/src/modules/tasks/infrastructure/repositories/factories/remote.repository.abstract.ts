@@ -32,7 +32,6 @@ implements RemoteRepository {
     lastPulledTask?: Task): Promise<Task[]> {
     const accessToken = await this.getAccess(uid, authenticatorId);
     const nativeTasks = await this.getTasks(accessToken);
-    console.log({lastPulledTask});
     return nativeTasks.map(this.mapper);
   }
 }

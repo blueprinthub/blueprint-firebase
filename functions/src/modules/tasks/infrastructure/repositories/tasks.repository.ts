@@ -35,7 +35,7 @@ export class FirestoreTasksRepository implements TasksRepository {
       .limit(1)
       .get();
 
-    return taskQuerySnapshot.empty?
+    return !taskQuerySnapshot.empty?
       taskQuerySnapshot.docs[0] as unknown as Task:undefined;
   }
 }
