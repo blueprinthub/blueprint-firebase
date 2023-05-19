@@ -50,12 +50,12 @@
 		"rewrites":[
 			{
 				"source":"/api/v1/me",
-				"function":"api-me",
+				"function":"users-getByKey",
 				"region":"us-central1"
 			},
 			{
 				"source":"/api/v1/task",
-				"function":"api-createTask",
+				"function":"tasks-addTask",
 				"region":"us-central1"
 			}
 		]

@@ -1,6 +1,11 @@
+/* eslint-disable require-jsdoc */
 import * as admin from "firebase-admin";
 
-admin.initializeApp();
+export function getFirestore() {
+  admin.initializeApp();
 
-export const firestore = admin.firestore();
+  const db = admin.firestore();
+  db.settings({ignoreUndefinedProperties: true});
+  return db;
+}
 

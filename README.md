@@ -1,5 +1,7 @@
 # Firebase for Blueprint (Document in progress)
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1929703e04374dfc92d5056c1790e6aa)](https://app.codacy.com/gh/blueprinthub/blueprint-firebase/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 Short description of your project.
 
 ## Getting Started

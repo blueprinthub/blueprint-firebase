@@ -36,3 +36,23 @@ jobs:
           CI: "true"
         run: cd ./functions && yarn run build
 
+  test:
+    needs: eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js and Yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: cd ./functions && yarn install --frozen-lockfile
+      - name: Run ESlint
+        env:
+          CI: "true"
+        run: cd ./functions && yarn run test:cov
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./functions/coverage/lcov.info
