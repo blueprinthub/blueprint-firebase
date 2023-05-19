@@ -13,9 +13,13 @@ export class ConnectController {
   constructor(public connect:ConnectOAuth) {}
 
   async execute(data:ConnectData, context:functions.https.CallableContext) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const uid = context!.auth!.uid;
-    const {code, platform} = data;
-    await this.connect.execute({code, platform}, uid);
+    const uid = context.auth?.uid;
+    if (!uid) {
+      throw new functions.https.HttpsError(
+        "unauthenticated",
+        "This method requires an authorized user"
+      );
+    }
+    await this.connect.execute(data, uid);
   }
 }

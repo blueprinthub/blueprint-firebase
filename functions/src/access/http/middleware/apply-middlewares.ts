@@ -8,7 +8,7 @@ type Handler =
 
 export const withMiddlewares = (...mids:Middleware[])=> (handler:Handler) => {
   return functions.https.onRequest(async (req, res) => {
-    let next = false;
+    let next = true;
 
     for (const mid of mids) {
       next = await mid(req, res);
