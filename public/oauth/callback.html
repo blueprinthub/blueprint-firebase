@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Redirecting...</title>
+	<script>
+		var redirectToApp = function () {
+			setTimeout(function appNotInstalled() {
+				window.location.replace("https://blueprint.page.link/download");
+			}, 300);
+			window.location.replace("blueprint://oauth" + window.location.search);
+		};
+		window.onload = redirectToApp;
+	</script>
+</head>
+
+<body></body>
+
+</html>
