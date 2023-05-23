@@ -5,7 +5,7 @@ import {getFirestore} from "./common/firestore/firestore.service";
 import {ApiKeyServiceImpl} from "./access/api-key/api-key.service";
 
 container.register("config", {useFactory: configFactory});
-container.register("firestore", {useFactory: getFirestore});
+container.register("firestore", {useValue: getFirestore()});
 container.register("api-key", {useClass: ApiKeyServiceImpl});
 
 // AuthenticatorsModule
