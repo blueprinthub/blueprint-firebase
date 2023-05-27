@@ -3,8 +3,13 @@
  * @interface
  * @property {string} name - The text representation of the status.
  * For example, "In Progress".
- * @property {string} hexColor - The hex color of the status.
+ * @property {string} colorHex - The hex color of the status.
  * For example, "#FF0000"
+ * @example
+ * {
+  name: "Completed",
+  colorHex: "#000000",
+}
  */
 export interface Label {
   /**
@@ -15,5 +20,5 @@ export interface Label {
   /**
    * The hex color of the status. For example, "#FF0000"
    */
-  hexColor: string;
+  colorHex: string;
 }

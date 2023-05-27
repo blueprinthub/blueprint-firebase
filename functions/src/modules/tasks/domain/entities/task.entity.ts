@@ -31,58 +31,50 @@ import {Label} from "./label.entity";
  * @property {Label[]} labels - Labels of the ticket.
  * @example
 {
-  createdAt: '2019-01-01T00:00:00.000Z',
-  updatedAt: '2019-01-01T00:00:00.000Z',
-  id: '1234567890',
+  createdAt: new Date(1990, 5, 12),
+  updatedAt: new Date(1990, 5, 12),
+  id: "1234567890",
   project: {
-    id: '1234567890',
-    platformId: '1234567890',
-    platformURL: 'https://jira.com/1234567890',
-    platformName: 'JIRA',
-    name: 'Blueprint',
-    description: 'Blueprint project',
-    iconUrl: 'https://jira.com/1234567890/icon.png',
-    colorHex: '#000000',
-    owner: 'John Doe',
-    slug: 'blueprint'
+    id: "1234567890",
+    platformId: "1234567890",
+    platformURL: "https://jira.com/1234567890",
+    platformName: PlatformName.Jira,
+    name: "Blueprint",
+    description: "Blueprint project",
+    iconUrl: "https://jira.com/1234567890/icon.png",
+    colorHex: "#000000",
+    owner: "John Doe",
+    slug: "blueprint",
   },
-  taskURL: 'https://jira.com/1234567890/1234567890',
-  title: 'Blueprint task',
-  description: 'Blueprint task description',
-  startDate: '2019-01-01T00:00:00.000Z',
-  dueDate: '2019-01-01T00:00:00.000Z',
+  taskURL: new URL(
+    "https://jira.com/1234567890/1234567890"
+  ),
+  isCompleted: false,
+  title: "Blueprint task",
+  description: "Blueprint task description",
+  startDate: new Date(1990, 5, 12),
+  dueDate: new Date(1990, 5, 12),
   estimatedTime: 3600,
   loggedTime: 1800,
   assigned: [
     {
-      platformUrl: 'https://jira.com/1234567890',
-      displayName: 'John Doe',
-      avatarUrl: 'https://jira.com/1234567890/avatar.png'
-    },
-    {
-      platformUrl: 'https://jira.com/1234567890',
-      displayName: 'Jane Doe',
-      avatarUrl: 'https://jira.com/1234567890/avatar.png'
-    }
+    displayName: "Mock Username",
+    platformURL: new URL("https://mocklinks.blueprint/user1"),
+    avatarUrl: "https://mocklinks.blueprint/icon2",
+  }
   ],
   creator: {
-    platformUrl: 'https://jira.com/1234567890',
-    displayName: 'John Doe',
-    avatarUrl: 'https://jira.com/1234567890/avatar.png'
+    displayName: "Mock Username",
+    platformURL: new URL("https://mocklinks.blueprint/user1"),
+    avatarUrl: "https://mocklinks.blueprint/icon2",
   },
   priority: 1,
   labels: [
     {
-      id: '1234567890',
-      name: 'Blueprint',
-      colorHex: '#000000'
-    },
-    {
-      id: '1234567890',
-      name: 'Blueprint',
-      colorHex: '#000000'
-    }
-  ]
+    name: "Completed",
+    colorHex: "#000000",
+  }
+  ],
 }
  */
 export interface Task {

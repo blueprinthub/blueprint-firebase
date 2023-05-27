@@ -23,17 +23,17 @@ import {PlatformName} from "./platform.enum";
  * @property {string} slug - Slug of the project for indexed search.
  * @example
  * {
- *  id: '1234567890',
- * platformId: '1234567890',
- * platformURL: 'https://jira.com/1234567890',
- * platformName: 'JIRA',
- * name: 'Blueprint',
- * description: 'Blueprint project',
- * iconUrl: 'https://jira.com/1234567890/icon.png',
- * colorHex: '#000000',
- * owner: 'John Doe',
- * slug: 'blueprint'
- * }
+  id: "1234567890",
+  platformId: "1234567890",
+  platformURL: "https://jira.com/1234567890",
+  platformName: PlatformName.Jira,
+  name: "Blueprint",
+  description: "Blueprint project",
+  iconUrl: "https://jira.com/1234567890/icon.png",
+  colorHex: "#000000",
+  owner: "John Doe",
+  slug: "blueprint",
+}
  */
 export interface Project {
   /**

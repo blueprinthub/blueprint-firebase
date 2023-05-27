@@ -10,10 +10,10 @@
  * @property {string} avatarUrl - The URL of the user's avatar in the platform.
  * @example
  * {
- *  platformURL: 'https://jira.com/1234567890',
- *  displayName: 'John Doe',
- *  avatarUrl: 'https://jira.com/1234567890/avatar.png'
- * }
+  displayName: "Mock Username",
+  platformURL: new URL("https://mocklinks.blueprint/user1"),
+  avatarUrl: "https://mocklinks.blueprint/icon2",
+}
  */
 export interface User {
   /**
