@@ -4,13 +4,13 @@
  * this user with the user of the app, since these are very different.
  *
  * @interface
- * @property {string} platformUrl - The URL of the user's profile in
+ * @property {string} platformURL - The URL of the user's profile in
  * the platform.
  * @property {string} displayName - The display name of the user.
  * @property {string} avatarUrl - The URL of the user's avatar in the platform.
  * @example
  * {
- *  platformUrl: 'https://jira.com/1234567890',
+ *  platformURL: 'https://jira.com/1234567890',
  *  displayName: 'John Doe',
  *  avatarUrl: 'https://jira.com/1234567890/avatar.png'
  * }
@@ -19,7 +19,7 @@ export interface User {
   /**
    * The URL of the user's profile in the platform.
    */
-  platformUrl: string;
+  platformURL: URL;
 
   /**
    * The display name of the user.
