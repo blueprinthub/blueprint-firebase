@@ -1,5 +1,6 @@
 import {Label} from "../../entities/label.entity";
 import {PlatformName} from "../../entities/platform.enum";
+import {Project} from "../../entities/project.entity";
 import {Task} from "../../entities/task.entity";
 import {User} from "../../entities/user.entity";
 
@@ -14,10 +15,10 @@ export const mockLabel: Label = {
   colorHex: "#000000",
 };
 
-const mockProject = {
+const mockProject: Project = {
   id: "1234567890",
   platformId: "1234567890",
-  platformURL: "https://jira.com/1234567890",
+  platformURL: new URL("https://jira.com/1234567890"),
   platformName: PlatformName.Jira,
   name: "Blueprint",
   description: "Blueprint project",
