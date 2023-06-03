@@ -136,7 +136,7 @@ function fromJiraApiDescriptionToString(
  */
 function fromJiraApiPriorityToPriority(priority?: Record<string, string>)
   : Priority {
-  // TODO(yarn-rp): this function is not working completly fine, since it is
+  // TODO(yarn-rp): this function is not working completely fine, since it is
   // not ensuring that the priority is a number from 1 to 5.
   const priorityNumber = priority?.id;
   const priorityInt = parseInt(priorityNumber as string) || 0;
