@@ -12,12 +12,12 @@ import {PlatformName} from "./platform.enum";
  * @interface
  * @property {string} id - Kick-off identifier for the project.
  * @property {string} platformId - Platform-specific identifier for the project.
- * @property {string} platformURL - Platform-specific URL for the project
+ * @property {URL} platformURL - Platform-specific URL for the project
  * (ex: Jira URL).
  * @property {PlatformName} platformName - The integration way of the project.
  * @property {string} name - The name of the project.
  * @property {string} description - A brief description of the project.
- * @property {string} iconUrl - URL of the project icon, if available.
+ * @property {URL} URL - URL of the project icon, if available.
  * @property {string} colorHex - The color of the project.
  * @property {string} owner - The owner of the project.
  * @property {string} slug - Slug of the project for indexed search.
@@ -25,7 +25,7 @@ import {PlatformName} from "./platform.enum";
  * {
   id: "1234567890",
   platformId: "1234567890",
-  platformURL: "https://jira.com/1234567890",
+  platformURL: new URL("https://jira.com/1234567890"),
   platformName: PlatformName.Jira,
   name: "Blueprint",
   description: "Blueprint project",
@@ -49,7 +49,7 @@ export interface Project {
   /**
    * Platform-specific URL for the project (ex: Jira URL).
    */
-  readonly platformURL: string;
+  readonly platformURL: URL;
 
   /**
    * The integration way of the project.
