@@ -161,7 +161,7 @@ export class GithubRemoteRepository
       avatarUrl: issue.user.avatar_url,
     };
 
-    const assigned: User[] = issue.assignees.map((assignee: any) => {
+    const assigned: User[] = issue.assignees.map((assignee) => {
       return {
         platformURL: new URL(assignee.html_url),
         displayName: assignee.login,
@@ -169,7 +169,7 @@ export class GithubRemoteRepository
       };
     });
 
-    const labels: Label[] = issue.labels.map((label: any) => {
+    const labels: Label[] = issue.labels.map((label) => {
       return {
         name: label.name,
         colorHex: label.color,
