@@ -105,7 +105,8 @@ export class GithubRemoteRepository
     }
   }
 
-  async getPullRequests(accessToken: string): Promise<GithubTask[]> {
+  async fetchUserRequestedReviewPullRequests(accessToken: string):
+      Promise<GithubTask[]> {
     try {
       const headers = this.buildHeaders(accessToken);
       const response = await axios.get(this.GITHUB_API_URL, {
@@ -135,7 +136,7 @@ export class GithubRemoteRepository
     const userGithubTasks = await Promise.all(
       [
         this.fetchUserIssues(accessToken),
-        this.getPullRequests(accessToken),
+        this.fetchUserRequestedReviewPullRequests(accessToken),
       ]
     );
 
