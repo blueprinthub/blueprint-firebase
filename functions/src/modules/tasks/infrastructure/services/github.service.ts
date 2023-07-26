@@ -85,7 +85,7 @@ export class GithubRemoteRepository
   private async fetchUserIssues(accessToken: string): Promise<GithubTask[]> {
     try {
       const headers = this.buildHeaders(accessToken);
-      const response = await axios.get(this.GITHUB_API_URL, {
+      const response = await axios.get(`${this.GITHUB_API_URL}/issues`, {
         headers: headers,
         params: {
           filter: "assigned",
@@ -109,15 +109,20 @@ export class GithubRemoteRepository
       Promise<GithubTask[]> {
     try {
       const headers = this.buildHeaders(accessToken);
-      const response = await axios.get(this.GITHUB_API_URL, {
+      const response = await axios.get(`${this.GITHUB_API_URL}/search/issues`, {
         headers: headers,
         params: {
-          filter: "assigned",
+          q: "is:pr is:open review-requested:@me",
         },
       });
 
       if (response.status === 200) {
         return response.data.map(
+          // Ideally we want to map this using a different mapper, but for now
+          // we will use the same mapper. This is because the Github API returns
+          // a very similar response for issues and pull requests, but
+          // suspecting that we may want to have different mappers in the
+          // future.
           (issue: GithubIssue) => this.mapper(issue)
         );
       } else {
