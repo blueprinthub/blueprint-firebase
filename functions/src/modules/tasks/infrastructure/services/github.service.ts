@@ -28,25 +28,52 @@ interface GithubPullRequest {
   due_date?: string;
   html_url: string;
 }
+interface GithubLabel {
+  name: string;
+  color: string;
+}
 /**
  * Represents a Github Issue
  * @see https://docs.github.com/en/rest/reference/issues
  */
 interface GithubIssue {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  html_url: string;
+  state: string;
   number: number;
   title: string;
   body: string;
-  created_at: string;
-  updated_at: string;
-  due_date?: string;
-  html_url: string;
+  labels: GithubLabel[],
+  repository: {
+    id: string;
+    html_url: string;
+    name: string;
+    description: string;
+    owner: {
+      login: string;
+      avatar_url: string;
+    };
+  };
+  user: {
+    html_url: string;
+    login: string;
+    avatar_url: string;
+  };
+  assignees: {
+    login: string;
+    avatar_url: string;
+    html_url: string;
+  }[];
 }
+
 /**
  * A Github remote repository that fetches the tasks from the Github API.
  */
 export class GithubRemoteRepository
   extends AbstractRemoteRepository<GithubTask> {
-  private GITHUB_API_URL = "https://api.atlassian.com/oauth/token/accessible-resources";
+  private GITHUB_API_URL = "https://api.github.com";
 
   private buildHeaders(accessToken: string) {
     return {
@@ -66,11 +93,32 @@ export class GithubRemoteRepository
       });
 
       if (response.status === 200) {
-        return response.data.map((issue: any) => ({
-          number: issue.number,
-          title: issue.title,
-          body: issue.body,
-        }));
+        return response.data.map(
+          (issue: GithubIssue) => this.mapper(issue)
+        );
+      } else {
+        throw new Error("Failed to fetch issues.");
+      }
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  async getPullRequests(accessToken: string): Promise<GithubTask[]> {
+    try {
+      const headers = this.buildHeaders(accessToken);
+      const response = await axios.get(this.GITHUB_API_URL, {
+        headers: headers,
+        params: {
+          filter: "assigned",
+        },
+      });
+
+      if (response.status === 200) {
+        return response.data.map(
+          (issue: GithubIssue) => this.mapper(issue)
+        );
       } else {
         throw new Error("Failed to fetch issues.");
       }
@@ -87,13 +135,13 @@ export class GithubRemoteRepository
     const userGithubTasks = await Promise.all(
       [
         this.fetchUserIssues(accessToken),
-        // TODO: fetch user pull requests
+        this.getPullRequests(accessToken),
       ]
     );
 
     return userGithubTasks.flat();
   }
-  mapper(issue: any): Task {
+  mapper(issue: GithubIssue): Task {
     const project: Project = {
       id: issue.repository.id,
       platformId: issue.repository.id,
