@@ -1,21 +1,23 @@
+/* eslint-disable require-jsdoc */
 import axios from "axios";
-import { Task } from "../../domain/entities/task.entity";
+import {Task} from "../../domain/entities/task.entity";
 import {
   AbstractRemoteRepository,
 } from "../repositories/factories/remote.repository.abstract";
-import { PlatformName } from "../../domain/entities/platform.enum";
-
+import {PlatformName} from "../../domain/entities/platform.enum";
+import {Label, Priority, Project, User} from "../../domain/entities/entities";
 /**
- * Represents a task in Github. Since in github, a task can mean different things, 
- * we need to have a union type to represent all the possible tasks.
- * 
- * 
+ * Represents a task in Github. Since in github, a task can mean different
+ * things, we need to have a union type to represent all the possible tasks.
+ * For now, we only support issues and pull requests.
+ *
  */
 type GithubTask = GithubIssue | GithubPullRequest;
 
 /**
- * Represents a Github Pull Request
- * 
+ * Represents a Github Pull Request (PR) data
+ * @see https://docs.github.com/en/rest/reference/pulls
+ *
  */
 interface GithubPullRequest {
   number: number;
@@ -28,6 +30,7 @@ interface GithubPullRequest {
 }
 /**
  * Represents a Github Issue
+ * @see https://docs.github.com/en/rest/reference/issues
  */
 interface GithubIssue {
   number: number;
@@ -38,6 +41,9 @@ interface GithubIssue {
   due_date?: string;
   html_url: string;
 }
+/**
+ * A Github remote repository that fetches the tasks from the Github API.
+ */
 export class GithubRemoteRepository
   extends AbstractRemoteRepository<GithubTask> {
   private GITHUB_API_URL = "https://api.atlassian.com/oauth/token/accessible-resources";
@@ -55,18 +61,18 @@ export class GithubRemoteRepository
       const response = await axios.get(this.GITHUB_API_URL, {
         headers: headers,
         params: {
-          filter: 'assigned'
-        }
+          filter: "assigned",
+        },
       });
 
       if (response.status === 200) {
         return response.data.map((issue: any) => ({
           number: issue.number,
           title: issue.title,
-          body: issue.body
+          body: issue.body,
         }));
       } else {
-        throw new Error('Failed to fetch issues.');
+        throw new Error("Failed to fetch issues.");
       }
     } catch (error) {
       console.error(error);
@@ -74,42 +80,76 @@ export class GithubRemoteRepository
     }
   }
 
+
   async getTasks(accessToken: string): Promise<GithubTask[]> {
     // The github tasks are the issues assigned to the user + the Pull Requests
-    // that at some point are connected to the user. 
+    // that at some point are connected to the user.
     const userGithubTasks = await Promise.all(
       [
         this.fetchUserIssues(accessToken),
-        //TODO: fetch user pull requests
+        // TODO: fetch user pull requests
       ]
     );
 
     return userGithubTasks.flat();
   }
-  mapper(issue: GithubTask): Task {
-    return {
-      title: issue.title,
-      estimatedTime: undefined,
-      description: issue.body,
-      isCompleted: false,
+  mapper(issue: any): Task {
+    const project: Project = {
+      id: issue.repository.id,
+      platformId: issue.repository.id,
+      platformURL: new URL(issue.repository.html_url),
+      platformName: PlatformName.Github,
+      name: issue.repository.name,
+      description: issue.repository.description,
+      iconUrl: issue.repository.owner.avatar_url,
+      colorHex: "#000000",
+      owner: issue.repository.owner.login,
+      slug: issue.repository.name,
+    };
+
+    const creator: User = {
+      platformURL: new URL(issue.user.html_url),
+      displayName: issue.user.login,
+      avatarUrl: issue.user.avatar_url,
+    };
+
+    const assigned: User[] = issue.assignees.map((assignee: any) => {
+      return {
+        platformURL: new URL(assignee.html_url),
+        displayName: assignee.login,
+        avatarUrl: assignee.avatar_url,
+      };
+    });
+
+    const labels: Label[] = issue.labels.map((label: any) => {
+      return {
+        name: label.name,
+        colorHex: label.color,
+      };
+    });
+
+    const task: Task = {
       createdAt: new Date(issue.created_at),
       updatedAt: new Date(issue.updated_at),
-      dueDate: issue.due_date ? new Date(issue.due_date) : undefined,
-      permalink: issue.html_url,
-      startDate: new Date(),
-      loggedTime: 0,
-      priority: 3,
-      project: {
-        platformName: PlatformName.Github,
-        name: 'Project Name',
-        iconUrl: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-      },
-      creator: {
-        displayName: 'Creator Name',
-        permalink: '',
-        iconUrl: ''
-      },
-      assigned: [],
-    }
+      id: issue.id,
+      project: project,
+      taskURL: new URL(issue.html_url),
+      title: issue.title,
+      description: issue.body,
+      // startDate: null, // GitHub API does not provide a start date for issues
+      // dueDate: issue.closed_at ? new Date(issue.closed_at) : null,
+      // estimatedTime: null,
+      // GitHub API does not provide an estimated time for issues
+      // loggedTime: null,
+      // GitHub API does not provide a logged time for issues
+      assigned: assigned,
+      creator: creator,
+      isCompleted: issue.state === "closed",
+      labels: labels,
+      // GitHub API does not provide a priority for issues
+      priority: 1 as Priority,
+    };
+
+    return task;
   }
 }
