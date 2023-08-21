@@ -1,5 +1,4 @@
-
-import {Firestore, Timestamp} from "firebase-admin/firestore";
+import {Timestamp} from "firebase-admin/firestore";
 
 
 import {Task} from "../../../domain/entities/task.entity";

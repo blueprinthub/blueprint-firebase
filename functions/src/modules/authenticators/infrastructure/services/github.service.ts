@@ -34,7 +34,7 @@ export class GithubOAuthStrategy implements OAuth2Repository {
       "Accept": "application/vnd.github+json",
     }});
     return {
-      gid: data.login,
+      gid: data.node_id,
       email: data.email,
       name: data.name,
     };

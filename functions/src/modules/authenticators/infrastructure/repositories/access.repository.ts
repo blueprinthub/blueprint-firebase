@@ -9,10 +9,14 @@ export class FirestoreAccessRepository implements AccessRepository {
   constructor(@inject("firestore") private readonly firestore:Firestore ) {}
 
   async save(access: Access, uid:string): Promise<void> {
+    console.log({access, uid});
     await this.firestore
       .collection("users")
       .doc(uid)
       .collection("authenticators")
-      .add(access);
+      // prevent multiple authenticators creation,
+      // not sure if multiple authenticators must trigger tasksClone
+      .doc(`${access.platformName}-${access.user.gid}`)
+      .set(access);
   }
 }

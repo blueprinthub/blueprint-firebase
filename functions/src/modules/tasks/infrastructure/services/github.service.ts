@@ -77,25 +77,25 @@ export class GithubRemoteRepository
 
   private buildHeaders(accessToken: string) {
     return {
+      Accept: "application/vnd.github+json",
       Authorization: `Bearer ${accessToken}`,
-      Accept: "application/json",
     };
   }
 
   private async fetchUserIssues(accessToken: string): Promise<GithubTask[]> {
     try {
       const headers = this.buildHeaders(accessToken);
-      const response = await axios.get(`${this.GITHUB_API_URL}/issues`, {
-        headers: headers,
-        params: {
-          filter: "assigned",
-        },
-      });
+      const response = await axios.get<GithubIssue[]>(
+        `${this.GITHUB_API_URL}/issues`, {
+          headers: headers,
+          params: {
+            filter: "assigned",
+          },
+        });
 
       if (response.status === 200) {
-        return response.data.map(
-          (issue: GithubIssue) => this.mapper(issue)
-        );
+        // get only issues with attached repository
+        return response.data.filter((issue) => !!issue.repository);
       } else {
         throw new Error("Failed to fetch issues.");
       }
@@ -109,22 +109,16 @@ export class GithubRemoteRepository
       Promise<GithubTask[]> {
     try {
       const headers = this.buildHeaders(accessToken);
-      const response = await axios.get(`${this.GITHUB_API_URL}/search/issues`, {
-        headers: headers,
-        params: {
-          q: "is:pr is:open review-requested:@me",
-        },
-      });
+      const response = await axios.get<{items:GithubIssue[]}>(
+        `${this.GITHUB_API_URL}/search/issues`, {
+          headers: headers,
+          params: {
+            q: "is:pr is:open review-requested:@me",
+          },
+        });
 
       if (response.status === 200) {
-        return response.data.map(
-          // Ideally we want to map this using a different mapper, but for now
-          // we will use the same mapper. This is because the Github API returns
-          // a very similar response for issues and pull requests, but
-          // suspecting that we may want to have different mappers in the
-          // future.
-          (issue: GithubIssue) => this.mapper(issue)
-        );
+        return response.data.items.filter((issue) => !!issue.repository);
       } else {
         throw new Error("Failed to fetch issues.");
       }
@@ -149,8 +143,8 @@ export class GithubRemoteRepository
   }
   mapper(issue: GithubIssue): Task {
     const project: Project = {
-      id: issue.repository.id,
-      platformId: issue.repository.id,
+      id: issue.repository?.id,
+      platformId: issue.repository?.id,
       platformURL: new URL(issue.repository.html_url),
       platformName: PlatformName.Github,
       name: issue.repository.name,

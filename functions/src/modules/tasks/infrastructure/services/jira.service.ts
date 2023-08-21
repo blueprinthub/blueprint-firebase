@@ -10,7 +10,6 @@ import {Priority} from "../../domain/entities/priority.entity";
 import {Label} from "../../domain/entities/label.entity";
 import {User} from "../../domain/entities/user.entity";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type JiraTask = {
   id: string;
   self: string;
@@ -22,7 +21,7 @@ type JiraTask = {
     dueDate: string;
     timeestimate: number;
     timespent: number;
-    assignee: [JiraApiUser];
+    assignee: JiraApiUser;
     status: any,
     created: string;
     updated: string;
@@ -41,7 +40,7 @@ interface JiraProject {
 }
 
 interface JiraApiUser {
-  [key: string]: any; // for arbitrary string keys and dynamic values
+  [key: string]: unknown; // for arbitrary string keys and dynamic values
   self?: string;
   displayName?: string;
   avatarUrls?: { [key: string]: string };
@@ -188,11 +187,7 @@ function getColorHexByName(name: string): string {
   return "#FFC107";
 }
 
-function fromJiraApiUserToUser(user?: JiraApiUser): User | null {
-  if (user == null) {
-    return null;
-  }
-
+function fromJiraApiUserToUser(user: JiraApiUser): User {
   const platformURL = new URL(user.self ?? "");
   const displayName = user.displayName ?? "";
   const avatarUrl = user.avatarUrls?.["48x48"] ?? "";
@@ -370,7 +365,7 @@ function fromJiraApiIssueToTask(jiraIssue: JiraTask): Task {
     dueDate: dueDate.getTime() === 0 ? undefined : dueDate,
     estimatedTime: estimatedTime,
     loggedTime: loggedTime,
-    assigned: userAssigned ? [userAssigned] : [],
+    assigned: [userAssigned] || [],
     creator: userCreator,
     isCompleted: isCompleted,
     labels: [status],
