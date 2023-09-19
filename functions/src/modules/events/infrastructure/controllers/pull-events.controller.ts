@@ -8,7 +8,7 @@ import {PullEventsUseCase} from "../../domain/usecases/pull-events.usecase";
  * @property {string} uid The user ID to pull events for.
  * @property {string} authenticatorId The authenticator ID to use for
  */
-type PullTasksContext = {
+type PullEventsContext = {
   uid: string;
   authenticatorId: string
 }
@@ -31,13 +31,13 @@ export class PullEventsController {
    * and adding them to the local repository.
    * @param {functions.firestore.QueryDocumentSnapshot} snapshot The Firestore
    * query document snapshot.
-   * @param {functions.EventContext<PullTasksContext>} context The Firebase
+   * @param {functions.EventContext<PullEventsContext>} context The Firebase
    * event context.
    * @return {Promise<void>} A Promise that resolves when the events have been
    * added to the local repository.
    */
   async execute(snapshot: functions.firestore.QueryDocumentSnapshot,
-    context: functions.EventContext<PullTasksContext>): Promise<void> {
+    context: functions.EventContext<PullEventsContext>): Promise<void> {
     const {uid, authenticatorId} = context.params;
     const {platformName} = snapshot.data();
 
