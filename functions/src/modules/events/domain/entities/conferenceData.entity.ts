@@ -1,6 +1,7 @@
 
 /**
- * Represents an entry point for a conference, such as a video call or phone call.
+ * Represents an entry point for a conference, such as a video call
+ * or phone call.
  * There are the different ways to join a certain conference.
  * The entry point type can be one of the following:
  * - video
