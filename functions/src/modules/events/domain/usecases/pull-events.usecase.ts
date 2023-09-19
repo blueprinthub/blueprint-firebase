@@ -14,7 +14,7 @@ import {EventRemoteRepositoryFactory}
  * for creating remote event repositories.
  */
 @injectable()
-export class PullEvents {
+export class PullEventsUseCase {
   /**
    * Creates a new instance of the PullEvents use case.
    * @param {EventLocalRepository} eventRepository The local event repository

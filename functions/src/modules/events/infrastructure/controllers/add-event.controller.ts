@@ -1,12 +1,12 @@
-/* eslint-disable require-jsdoc */
+
 import {injectable} from "tsyringe";
 import * as functions from "firebase-functions";
 import {AddEventUseCase} from "../../domain/usecases/add-event.usecase";
 
+@injectable()
 /**
  * Controller for adding events via an API key.
  */
-@injectable()
 export class AddEventViaApiKeyController {
   /**
    * Creates a new instance of the AddEventViaApiKeyController class.
