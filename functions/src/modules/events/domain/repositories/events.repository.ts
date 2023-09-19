@@ -1,8 +1,27 @@
-import { PlatformName } from "../entities/platform.enum";
-import { Task } from "../entities/task.entity";
+import {PlatformName} from "../entities/platform.enum";
+import {Event} from "../entities";
 
-export interface TasksRepository {
-    add(tasks: Task[], uid: string): Promise<void>
-    fetchLastFromPlatform
-        (platform: PlatformName, uid: string): Promise<Task | undefined>
+/**
+ * Interface for a repository that stores and retrieves events.
+ */
+export interface EventRepository {
+
+    /**
+     * Adds events to the repository for the given user ID.
+     * @param events An array of events to add to the repository.
+     * @param uid The user ID to associate with the events.
+     * @returns A Promise that resolves when the events have been added to the
+     * repository.
+     */
+    add(events: Event[], uid: string): Promise<void>
+
+    /**
+     * Fetches the last event from the given platform for the given user ID.
+     * @param platform The platform to fetch the event from.
+     * @param uid The user ID to associate with the event.
+     * @returns A Promise that resolves with the last event from the platform,
+     * or undefined if there are no events.
+     */
+    fetchLastFromPlatform(platform: PlatformName, uid: string):
+        Promise<Event | undefined>
 }
