@@ -1,4 +1,4 @@
-import {Event, PlatformName} from "../../../entities";
+import {Event, PlatformName} from "../../entities";
 
 /**
  * A repository in charge for handling events with external platforms
@@ -8,7 +8,7 @@ import {Event, PlatformName} from "../../../entities";
  * events that are outside Blueprint for the specific platformName.
  *
  * For more information about the EventRepository
- * visit https://www.github.com/blueprinthub/blueprint-firebase/functions/src/modules/events/domain/repositories/event.repository.ts
+ * visit https://www.github.com/blueprinthub/blueprint-firebase/functions/src/modules/events/domain/repositories/event.local.repository.ts
  */
 export interface EventRemoteRepository {
   /**

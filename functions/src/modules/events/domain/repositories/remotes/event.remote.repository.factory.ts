@@ -1,11 +1,11 @@
 import {PlatformName} from "../../entities/platform.enum";
-import {EventRemoteRepository} from "./impl/event.remote.repository";
+import {EventRemoteRepository} from "./event.remote.repository";
 
 /**
  * Factory interface for creating remote event repositories.
  *
  */
-export interface RemoteEventRepositoryFactory {
+export interface EventRemoteRepositoryFactory {
   /**
    * Builds a remote event repository for the given platform.
    * @param {PlatformName} platform The platform to build the repository for.

@@ -3,11 +3,11 @@ import {container} from "tsyringe";
 
 import {AddEventUseCase} from "./add-event.usecase";
 
-import {EventRepository} from "../repositories/event.repository";
+import {EventLocalRepository} from "../repositories/event.local.repository";
 import {testEvent, testUserId} from "./__mocks__/event.mock";
 
 describe("AddEventUseCase", () => {
-  const eventsRepoMock: EventRepository = {
+  const eventsRepoMock: EventLocalRepository = {
     add: jest.fn(),
     fetchLastFromPlatform: jest.fn(),
   };
@@ -15,7 +15,7 @@ describe("AddEventUseCase", () => {
   let addEventUseCase: AddEventUseCase;
 
   beforeEach(() => {
-    container.register("EventRepository", {useValue: eventsRepoMock});
+    container.register("EventLocalRepository", {useValue: eventsRepoMock});
     addEventUseCase = container.resolve(AddEventUseCase);
   });
 

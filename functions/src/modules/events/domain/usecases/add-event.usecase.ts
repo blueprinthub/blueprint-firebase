@@ -2,7 +2,7 @@
 import {inject, injectable} from "tsyringe";
 import {Event} from "../entities";
 
-import {EventRepository} from "../repositories/event.repository";
+import {EventLocalRepository} from "../repositories/event.local.repository";
 
 /**
  * Use case for adding an event to the repository.
@@ -11,12 +11,12 @@ import {EventRepository} from "../repositories/event.repository";
 export class AddEventUseCase {
   /**
    * Creates a new instance of the AddEventUseCase use case.
-   * @param {EventRepository} eventRepository The repository to add the
-   * event to.
+   * @param {EventLocalRepository} eventLocalRepository The repository
+   * to add the event to.
    */
   constructor(
-    @inject("EventRepository") private readonly eventRepository:
-      EventRepository,
+    @inject("EventLocalRepository") private readonly eventLocalRepository:
+    EventLocalRepository,
   ) { }
 
   /**
@@ -27,6 +27,6 @@ export class AddEventUseCase {
    * has been added to the repository.
    */
   async execute(event: Event, uid: string): Promise<void> {
-    await this.eventRepository.add([event], uid);
+    await this.eventLocalRepository.add([event], uid);
   }
 }
