@@ -2,7 +2,8 @@ import {PlatformName} from "../entities/platform.enum";
 import {Event} from "../entities";
 
 /**
- * Interface for a repository that stores and retrieves events.
+ * Interface for a repository that manages events.
+ * @interface
  */
 export interface EventRepository {
 
