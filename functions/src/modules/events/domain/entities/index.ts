@@ -1,4 +1,5 @@
 export * from "./event.entity";
 export * from "./user.entity";
-export * from "./conferenceData.entity";
-export * from "./attendantStatus.enum";
+export * from "./conference-data.entity";
+export * from "./attendant-status.enum";
+export * from "./platform.enum";

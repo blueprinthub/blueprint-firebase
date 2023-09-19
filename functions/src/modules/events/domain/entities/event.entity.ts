@@ -1,5 +1,5 @@
-import {AttendantStatus} from "./attendantStatus.enum";
-import {ConferenceData} from "./conferenceData.entity";
+import {AttendantStatus} from "./attendant-status.enum";
+import {ConferenceData} from "./conference-data.entity";
 import {PlatformName} from "./platform.enum";
 import {User} from "./user.entity";
 

@@ -2,7 +2,11 @@ import {PlatformName} from "../entities/platform.enum";
 import {Event} from "../entities";
 
 /**
- * Interface for a repository that manages events.
+ * A repository for events inside the Blueprint Platform. This repository
+ * should be in charge of managing events that are already inside the platform.
+ * For handling events that are outside the platform, see the
+ * @link https://www.github.com/blueprinthub/blueprint-firebase/functions/src/modules/events/domain/repositories/remote.repository.ts
+ *
  * @interface
  */
 export interface EventRepository {
