@@ -1,14 +1,14 @@
 /* eslint-disable require-jsdoc */
 import {inject, injectable} from "tsyringe";
 import {Event, PlatformName} from "../entities";
-import {EventRepository} from "../repositories/event.local.repository";
+import {EventLocalRepository} from "../repositories/event.local.repository";
 import {EventRemoteRepositoryFactory}
   from "../repositories/remotes/event.remote.repository.factory";
 
 /**
  * Use case for pulling events from a remote repository and adding
  * them to the local repository.
- * @property {EventRepository} eventRepository The local event repository
+ * @property {EventLocalRepository} eventRepository The local event repository
  * to add events to.
  * @property {EventRemoteRepositoryFactory} remoteFactory The factory
  * for creating remote event repositories.
@@ -17,14 +17,14 @@ import {EventRemoteRepositoryFactory}
 export class PullEvents {
   /**
    * Creates a new instance of the PullEvents use case.
-   * @param {EventRepository} eventRepository The local event repository
+   * @param {EventLocalRepository} eventRepository The local event repository
    * to add events to.
    * @param {EventRemoteRepositoryFactory} remoteFactory The factory
    * for creating remote event repositories.
    */
   constructor(
-    @inject("EventRepository") private readonly eventRepository:
-      EventRepository,
+    @inject("EventLocalRepository") private readonly eventRepository:
+    EventLocalRepository,
 
     @inject("EventRemoteRepositoryFactory")
     private readonly remoteFactory: EventRemoteRepositoryFactory
