@@ -2,7 +2,8 @@
 import {inject, injectable} from "tsyringe";
 import {Event} from "../entities";
 
-import {EventLocalRepository} from "../repositories/local/event.local.repository";
+import {EventLocalRepository}
+  from "../repositories/local/event.local.repository";
 
 /**
  * Use case for adding an event to the repository.

@@ -3,7 +3,8 @@ import {container} from "tsyringe";
 
 import {AddEventUseCase} from "./add-event.usecase";
 
-import {EventLocalRepository} from "../repositories/local/event.local.repository";
+import {EventLocalRepository}
+  from "../repositories/local/event.local.repository";
 import {testEvent, testUserId} from "./__mocks__/event.mock";
 
 describe("AddEventUseCase", () => {
