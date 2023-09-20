@@ -1,21 +1,22 @@
 import "reflect-metadata";
-import {FirestoreAccessRepository} from "./access.repository";
-import {Access} from "../../domain/entities/access.entity";
-import {container} from "tsyringe";
+import { FirestoreAccessRepository } from "./access.repository";
+import { Access } from "../../domain/entities/access.entity";
+import { container } from "tsyringe";
 
 describe("FirestoreAccessRepository", () => {
   let repo: FirestoreAccessRepository;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let firestoreMock:any;
+  let firestoreMock: any;
 
   beforeEach(() => {
     firestoreMock = {
       collection: jest.fn().mockReturnThis(),
       doc: jest.fn().mockReturnThis(),
       add: jest.fn(),
+      set: jest.fn(),
     };
     container.clearInstances();
-    container.register("firestore", {useValue: firestoreMock});
+    container.register("firestore", { useValue: firestoreMock });
     repo = container.resolve(FirestoreAccessRepository);
   });
 
@@ -23,7 +24,7 @@ describe("FirestoreAccessRepository", () => {
     const access: Access = {
       accessToken: "abc",
       platformName: "jira",
-      user: {gid: "gid"},
+      user: { gid: "gid" },
     };
     firestoreMock.add.mockResolvedValue(undefined);
 
@@ -32,6 +33,6 @@ describe("FirestoreAccessRepository", () => {
     expect(firestoreMock.collection).toHaveBeenCalledWith("users");
     expect(firestoreMock.doc).toHaveBeenCalledWith("user1");
     expect(firestoreMock.collection).toHaveBeenCalledWith("authenticators");
-    expect(firestoreMock.add).toHaveBeenCalledWith(access);
+    expect(firestoreMock.set).toHaveBeenCalledWith(access);
   });
 });
