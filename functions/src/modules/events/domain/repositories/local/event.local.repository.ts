@@ -1,5 +1,5 @@
-import {PlatformName} from "../entities/platform.enum";
-import {Event} from "../entities";
+import {PlatformName} from "../../entities/platform.enum";
+import {Event} from "../../entities";
 
 /**
  * A repository for events inside the Blueprint. This repository

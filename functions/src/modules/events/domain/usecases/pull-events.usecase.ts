@@ -1,9 +1,9 @@
 /* eslint-disable require-jsdoc */
 import {inject, injectable} from "tsyringe";
 import {Event, PlatformName} from "../entities";
-import {EventLocalRepository} from "../repositories/event.local.repository";
+import {EventLocalRepository} from "../repositories/local/event.local.repository";
 import {EventRemoteRepositoryFactory}
-  from "../repositories/remotes/event.remote.repository.factory";
+  from "../repositories/remote/event.remote.repository.factory";
 
 /**
  * Use case for pulling events from a remote repository and adding

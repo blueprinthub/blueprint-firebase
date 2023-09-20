@@ -2,10 +2,10 @@ import "reflect-metadata";
 import {container} from "tsyringe";
 
 
-import {PullEventsUseCase} from "../../domain/usecases/pull-events.usecase";
 import {PullEventsController} from "./pull-events.controller";
+import {PullEventsUseCase} from "../../domain/usecases/pull-events.usecase";
 
-jest.mock("../../domain/usecases/pull-tasks.usecase");
+jest.mock("../../domain/usecases/pull-events.usecase");
 
 describe("AddTaskViaApiKey", () => {
   let controller:PullEventsController;

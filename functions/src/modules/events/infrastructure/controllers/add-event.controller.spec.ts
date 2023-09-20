@@ -4,7 +4,7 @@ import {AddEventUseCase} from "../../domain/usecases/add-event.usecase";
 import {AddEventViaApiKeyController} from "./add-event.controller";
 
 
-jest.mock("../../domain/usecases/add-task.usecase");
+jest.mock("../../domain/usecases/add-event.usecase");
 
 describe("AddEventUseCaseViaApiKey", () => {
   let controller: AddEventViaApiKeyController;

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {container} from "tsyringe";
 import {Event, PlatformName} from "../entities";
 import {EventRemoteRepositoryFactory}
-  from "../repositories/remotes/event.remote.repository.factory";
+  from "../repositories/remote/event.remote.repository.factory";
 import {PullEventsUseCase} from "./pull-events.usecase";
 import {testEvent} from "./__mocks__/event.mock";
 
