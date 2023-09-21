@@ -26,6 +26,7 @@ describe("FirestoreEventLocalRepository", () => {
       get: jest.fn(),
       where: jest.fn().mockReturnThis(),
       orderBy: jest.fn().mockReturnThis(),
+      withConverter: jest.fn().mockReturnThis(),
     };
 
     container.clearInstances();
@@ -34,12 +35,12 @@ describe("FirestoreEventLocalRepository", () => {
   });
 
   describe("add", () => {
-    it("adds tasks to firestore in batch", async () => {
-      const tasks = Array<Event>(4).fill(testEvent);
+    it("adds events to firestore in batch", async () => {
+      const events = Array<Event>(4).fill(testEvent);
       const uid = "test-uid";
-      await repo.add(tasks, uid);
+      await repo.add(events, uid);
 
-      expect(firestoreMock.collection).toHaveBeenCalledWith("tasks");
+      expect(firestoreMock.collection).toHaveBeenCalledWith("events");
       expect(firestoreMock.set).toHaveBeenCalledTimes(4);
     });
   });
@@ -52,7 +53,7 @@ describe("FirestoreEventLocalRepository", () => {
       });
       const result = await repo.fetchLastFromPlatform(platformName, uid);
 
-      expect(firestoreMock.collection).toHaveBeenCalledWith("tasks");
+      expect(firestoreMock.collection).toHaveBeenCalledWith("events");
       expect(firestoreMock.where).toHaveBeenCalledWith(
         "platform",
         "==",
