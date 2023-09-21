@@ -10,7 +10,7 @@ const platformName = PlatformName.Jira;
 
 describe("FirestoreTasksRepository", () => {
   let repo: FirestoreTasksRepository;
-  let firestoreMock:any;
+  let firestoreMock: any;
 
   beforeEach(() => {
     firestoreMock = {
@@ -24,6 +24,7 @@ describe("FirestoreTasksRepository", () => {
       get: jest.fn(),
       where: jest.fn().mockReturnThis(),
       orderBy: jest.fn().mockReturnThis(),
+      withConverter: jest.fn().mockReturnThis(),
     };
 
     container.clearInstances();
@@ -54,7 +55,7 @@ describe("FirestoreTasksRepository", () => {
       expect(firestoreMock.where).toHaveBeenCalledWith(
         "platform",
         "==",
-        platformName
+        platformName,
       );
       expect(firestoreMock.limit).toHaveBeenCalledWith(1);
       expect(result).toEqual("test-doc-value");

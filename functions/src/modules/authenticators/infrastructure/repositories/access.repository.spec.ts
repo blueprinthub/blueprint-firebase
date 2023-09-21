@@ -6,13 +6,14 @@ import {container} from "tsyringe";
 describe("FirestoreAccessRepository", () => {
   let repo: FirestoreAccessRepository;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let firestoreMock:any;
+  let firestoreMock: any;
 
   beforeEach(() => {
     firestoreMock = {
       collection: jest.fn().mockReturnThis(),
       doc: jest.fn().mockReturnThis(),
       add: jest.fn(),
+      set: jest.fn(),
     };
     container.clearInstances();
     container.register("firestore", {useValue: firestoreMock});
@@ -32,6 +33,6 @@ describe("FirestoreAccessRepository", () => {
     expect(firestoreMock.collection).toHaveBeenCalledWith("users");
     expect(firestoreMock.doc).toHaveBeenCalledWith("user1");
     expect(firestoreMock.collection).toHaveBeenCalledWith("authenticators");
-    expect(firestoreMock.add).toHaveBeenCalledWith(access);
+    expect(firestoreMock.set).toHaveBeenCalledWith(access);
   });
 });
