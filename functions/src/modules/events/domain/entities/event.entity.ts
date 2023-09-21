@@ -25,14 +25,14 @@ import {User} from "./user.entity";
  *         displayName: 'Jane Doe',
  *         email: 'jane.doe@example.com',
  *       },
- *       AttendantStatus.accepted,
+ *       AttendantStatus.Accepted,
  *     ],
  *     [
  *       {
  *         displayName: 'Bob Smith',
  *         email: 'bob.smith@example.com',
  *       },
- *       AttendantStatus.tentative,
+ *       AttendantStatus.Tentative,
  *     ],
  *   ]),
  *   platformLink: 'https://example.com/meeting',
@@ -73,19 +73,19 @@ interface EventProps {
  *         displayName: 'Jane Doe',
  *         email: 'jane.doe@example.com',
  *       },
- *       AttendantStatus.accepted,
+ *       AttendantStatus.Accepted,
  *     ],
  *     [
  *       {
  *         displayName: 'Bob Smith',
  *         email: 'bob.smith@example.com',
  *       },
- *       AttendantStatus.tentative,
+ *       AttendantStatus.Tentative,
  *     ],
  *   ]),
  *   platformLink: 'https://example.com/meeting',
  *   platform: 'Google Calendar',
- *   attendantStatus: AttendantStatus.accepted,
+ *   attendantStatus: AttendantStatus.Accepted,
  *   conferenceData: {
  *     entryPoints: [
  *       {

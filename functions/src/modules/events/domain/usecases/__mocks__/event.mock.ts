@@ -37,11 +37,11 @@ export const testEvent: Event = {
   colorHex: "#4285F4",
   organizer: testUser,
   attendees: new Map([
-    [testUser, AttendantStatus.accepted],
+    [testUser, AttendantStatus.Accepted],
   ]),
   platformLink: "https://example.com/meeting",
   platform: PlatformName.GoogleCalendar,
-  attendantStatus: AttendantStatus.accepted,
+  attendantStatus: AttendantStatus.Accepted,
   conferenceData: testConferenceData,
 };
 

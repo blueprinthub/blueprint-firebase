@@ -39,7 +39,7 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
       };
       const status: AttendantStatus =
         AttendantStatus[att.responseStatus as keyof typeof AttendantStatus] ||
-        AttendantStatus.needsAction;
+        AttendantStatus.NeedsAction;
       attendees.set(user, status);
     });
 
@@ -60,7 +60,7 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
       attendees,
       platformLink,
       platform: PlatformName.GoogleCalendar,
-      attendantStatus: AttendantStatus.accepted, // Replace with the real status
+      attendantStatus: AttendantStatus.Accepted, // Replace with the real status
       conferenceData,
     };
 
