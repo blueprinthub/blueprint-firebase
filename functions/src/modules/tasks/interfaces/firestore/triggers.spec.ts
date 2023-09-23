@@ -27,7 +27,9 @@ describe("TasksTriggers", () => {
       const execute = jest.spyOn(PullTasksController.prototype, "execute").mockImplementation();
 
       const { clone } = triggers;
-      await firebaseFunctions.wrap(clone)({} as never);
+      await firebaseFunctions.wrap(clone)(
+        firebaseFunctions.firestore.makeDocumentSnapshot({ foo: "bar", type: "task" }, "foo/bar"),
+      );
       expect(execute).toHaveBeenCalled();
     });
   });

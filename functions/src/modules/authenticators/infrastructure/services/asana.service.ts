@@ -29,6 +29,7 @@ export class AsanaOAuthStrategy implements OAuth2Repository {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
       platformName: "asana",
+      type: claim.type,
     };
   }
 

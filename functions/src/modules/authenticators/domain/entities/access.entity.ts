@@ -1,3 +1,4 @@
+import { AuthenticatorType } from "./authenticator-type.enum";
 import { UserData } from "./user-data.entity";
 
 export interface Access {
@@ -5,4 +6,5 @@ export interface Access {
   refreshToken?: string;
   platformName: string;
   user: UserData;
+  type: AuthenticatorType;
 }

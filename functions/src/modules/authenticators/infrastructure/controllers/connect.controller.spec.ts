@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { container } from "tsyringe";
 import { ConnectOAuth } from "../../domain/usecases/connect-oauth.usecase";
 import { ConnectController } from "./connect.controller";
+import { AuthenticatorType } from "../../domain/entities";
 
 jest.mock("../../domain/usecases/connect-oauth.usecase");
 
@@ -28,6 +29,7 @@ describe("TasksTriggers", () => {
       const mockData = {
         code: "test-code",
         platform: "test-platform",
+        type: AuthenticatorType.Task,
       };
 
       const execute = jest.spyOn(ConnectOAuth.prototype, "execute").mockImplementation();
