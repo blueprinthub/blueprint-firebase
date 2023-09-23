@@ -58,6 +58,11 @@
 				"source":"/api/v1/task",
 				"function":"tasks-addTask",
 				"region":"us-central1"
+			},
+			{
+				"source":"/webhook",
+				"function":"tasks-webhook",
+				"region":"us-central1"
 			}
 		]
   }

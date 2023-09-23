@@ -4,8 +4,6 @@ import * as firebaseFunctionsTest from "firebase-functions-test";
 import { FeaturesList } from "firebase-functions-test/lib/features";
 import { AddTaskViaApiKey } from "../../infrastructure/controllers/add-task.controller";
 
-import routes from "./routes";
-
 jest.mock("../../infrastructure/controllers/add-task.controller");
 
 const apiKeyServiceMock = {
@@ -15,6 +13,8 @@ const apiKeyServiceMock = {
 
 container.register("api-key", { useValue: apiKeyServiceMock });
 container.register(AddTaskViaApiKey, { useClass: AddTaskViaApiKey });
+
+import routes from "./routes";
 
 describe("TasksRoutes", () => {
   let firebaseFunctions: FeaturesList;

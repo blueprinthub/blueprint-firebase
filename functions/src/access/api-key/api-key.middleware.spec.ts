@@ -2,12 +2,13 @@
 /* eslint-disable new-cap */
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { ApiKeyCurrentUser } from "./api-key.middleware";
 
 const VALID_API_KEY = "abc123";
 const VALID_UID = "123";
 const apiKeyService = { getUserByKey: jest.fn() };
 container.register("api-key", { useValue: apiKeyService });
+
+import { ApiKeyCurrentUser } from "./api-key.middleware";
 
 const mockRequest = (headers: any = {}): any => {
   return { headers };

@@ -3,12 +3,11 @@ import { container } from "tsyringe";
 import * as firebaseFunctionsTest from "firebase-functions-test";
 import { FeaturesList } from "firebase-functions-test/lib/features";
 import { ConnectController } from "../../infrastructure/controllers/connect.controller";
-
-import routes from "./routes";
-
 jest.mock("../../infrastructure/controllers/connect.controller");
 
 container.register(ConnectController, { useClass: ConnectController });
+
+import routes from "./routes";
 
 describe("AuthenticatorsRoutes", () => {
   let firebaseFunctions: FeaturesList;

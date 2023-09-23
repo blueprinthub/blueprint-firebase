@@ -3,8 +3,6 @@ import * as firebaseFunctionsTest from "firebase-functions-test";
 import { container } from "tsyringe";
 import { FeaturesList } from "firebase-functions-test/lib/features";
 
-import userFunctions from "./users.module";
-
 const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
   doc: jest.fn().mockReturnThis(),
@@ -16,8 +14,9 @@ const apiKeyServiceMock = {
 };
 
 container.register("firestore", { useValue: firestoreMock });
-
 container.register("api-key", { useValue: apiKeyServiceMock });
+
+import userFunctions from "./users.module";
 
 describe("UsersModule", () => {
   let firebaseFunctions: FeaturesList;
