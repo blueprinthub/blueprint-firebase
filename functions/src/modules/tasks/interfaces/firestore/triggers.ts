@@ -11,6 +11,7 @@ const clone = functions
   .document("users/{uid}/authenticators/{authenticatorId}")
   .onCreate(
     async (change, context) => {
+      const authenticator = change.data();
       return await controller.execute(change, context);
     }
   );
