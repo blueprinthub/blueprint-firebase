@@ -1,7 +1,7 @@
-import {Priority} from "./priority.entity";
-import {Project} from "./project.entity";
-import {User} from "./user.entity";
-import {Label} from "./label.entity";
+import { Priority } from "./priority.entity";
+import { Project } from "./project.entity";
+import { User } from "./user.entity";
+import { Label } from "./label.entity";
 
 /**
  * A representation of a ticket in a project. Like the {@link Project} entity,

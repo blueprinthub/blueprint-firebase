@@ -1,10 +1,9 @@
 import "reflect-metadata";
-import {container} from "tsyringe";
-import {Event, PlatformName} from "../entities";
-import {EventRemoteRepositoryFactory}
-  from "../repositories/remote/event.remote.repository.factory";
-import {PullEventsUseCase} from "./pull-events.usecase";
-import {testEvent} from "./__mocks__/event.mock";
+import { container } from "tsyringe";
+import { Event, PlatformName } from "../entities";
+import { EventRemoteRepositoryFactory } from "../repositories/remote/event.remote.repository.factory";
+import { PullEventsUseCase } from "./pull-events.usecase";
+import { testEvent } from "./__mocks__/event.mock";
 
 describe("PullEvents", () => {
   const mockUid = "test-uid";
@@ -15,7 +14,7 @@ describe("PullEvents", () => {
     fetchLastFromPlatform: jest.fn(),
   };
 
-  const remoteRepoMock={
+  const remoteRepoMock = {
     pull: jest.fn(),
   };
 
@@ -26,7 +25,7 @@ describe("PullEvents", () => {
   let pullEventsUseCase: PullEventsUseCase;
 
   beforeEach(() => {
-    container.register("EventLocalRepository", {useValue: eventsRepoMock});
+    container.register("EventLocalRepository", { useValue: eventsRepoMock });
     container.register("EventRemoteRepositoryFactory", {
       useValue: remoteFactoryMock,
     });
@@ -53,15 +52,13 @@ describe("PullEvents", () => {
     it("when task should pass the task", async () => {
       eventsRepoMock.fetchLastFromPlatform.mockReturnValueOnce(testEvent);
       await pullEventsUseCase.execute(mockPlatform, mockUid, "test-auth-id");
-      expect(remoteRepoMock.pull)
-        .toHaveBeenCalledWith(mockUid, "test-auth-id", testEvent);
+      expect(remoteRepoMock.pull).toHaveBeenCalledWith(mockUid, "test-auth-id", testEvent);
     });
 
     it("if there is no events should call with undefined", async () => {
       eventsRepoMock.fetchLastFromPlatform.mockReturnValueOnce(undefined);
       await pullEventsUseCase.execute(mockPlatform, mockUid, "test-auth-id");
-      expect(remoteRepoMock.pull)
-        .toHaveBeenCalledWith(mockUid, "test-auth-id", undefined);
+      expect(remoteRepoMock.pull).toHaveBeenCalledWith(mockUid, "test-auth-id", undefined);
     });
   });
 });

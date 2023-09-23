@@ -1,18 +1,16 @@
 import "reflect-metadata";
-import {container} from "tsyringe";
-import {Event, PlatformName} from "../../../domain/entities";
+import { container } from "tsyringe";
+import { Event, PlatformName } from "../../../domain/entities";
 
-import {testEvent} from "../../../domain/usecases/__mocks__/event.mock";
-import {FirestoreEventLocalRepository}
-  from "./firestore-event-local.repository";
-
+import { testEvent } from "../../../domain/usecases/__mocks__/event.mock";
+import { FirestoreEventLocalRepository } from "./firestore-event-local.repository";
 
 const uid = "test-uid";
 const platformName = PlatformName.GoogleCalendar;
 
 describe("FirestoreEventLocalRepository", () => {
   let repo: FirestoreEventLocalRepository;
-  let firestoreMock:any;
+  let firestoreMock: any;
 
   beforeEach(() => {
     firestoreMock = {
@@ -30,7 +28,7 @@ describe("FirestoreEventLocalRepository", () => {
     };
 
     container.clearInstances();
-    container.register("firestore", {useValue: firestoreMock});
+    container.register("firestore", { useValue: firestoreMock });
     repo = container.resolve(FirestoreEventLocalRepository);
   });
 
@@ -54,11 +52,7 @@ describe("FirestoreEventLocalRepository", () => {
       const result = await repo.fetchLastFromPlatform(platformName, uid);
 
       expect(firestoreMock.collection).toHaveBeenCalledWith("events");
-      expect(firestoreMock.where).toHaveBeenCalledWith(
-        "platform",
-        "==",
-        platformName
-      );
+      expect(firestoreMock.where).toHaveBeenCalledWith("platform", "==", platformName);
       expect(firestoreMock.limit).toHaveBeenCalledWith(1);
       expect(result).toEqual("test-doc-value");
     });

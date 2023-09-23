@@ -12,8 +12,8 @@
  * ```
  */
 export interface User {
-    platformUrl?: string;
-    displayName?: string;
-    avatarUrl?: string;
-    email?: string;
+  platformUrl?: string;
+  displayName?: string;
+  avatarUrl?: string;
+  email?: string;
 }

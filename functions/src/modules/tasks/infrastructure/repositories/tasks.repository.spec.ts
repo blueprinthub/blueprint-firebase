@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import {container} from "tsyringe";
-import {PlatformName} from "../../domain/entities/platform.enum";
-import {Task} from "../../domain/entities/task.entity";
-import {mockTask} from "../../domain/usecases/__mocks__/task.mock";
-import {FirestoreTasksRepository} from "./tasks.repository";
+import { container } from "tsyringe";
+import { PlatformName } from "../../domain/entities/platform.enum";
+import { Task } from "../../domain/entities/task.entity";
+import { mockTask } from "../../domain/usecases/__mocks__/task.mock";
+import { FirestoreTasksRepository } from "./tasks.repository";
 
 const uid = "test-uid";
 const platformName = PlatformName.Jira;
@@ -28,7 +28,7 @@ describe("FirestoreTasksRepository", () => {
     };
 
     container.clearInstances();
-    container.register("firestore", {useValue: firestoreMock});
+    container.register("firestore", { useValue: firestoreMock });
     repo = container.resolve(FirestoreTasksRepository);
   });
 
@@ -52,11 +52,7 @@ describe("FirestoreTasksRepository", () => {
       const result = await repo.fetchLastFromPlatform(platformName, uid);
 
       expect(firestoreMock.collection).toHaveBeenCalledWith("tasks");
-      expect(firestoreMock.where).toHaveBeenCalledWith(
-        "platform",
-        "==",
-        platformName,
-      );
+      expect(firestoreMock.where).toHaveBeenCalledWith("platform", "==", platformName);
       expect(firestoreMock.limit).toHaveBeenCalledWith(1);
       expect(result).toEqual("test-doc-value");
     });

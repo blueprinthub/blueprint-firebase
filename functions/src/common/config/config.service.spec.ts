@@ -1,9 +1,4 @@
-import {
-  configFactory,
-  ConfigService,
-  OAuth2Config,
-  WebConfig,
-} from "./config.service";
+import { configFactory, ConfigService, OAuth2Config, WebConfig } from "./config.service";
 
 const testConfig = {
   web: {
@@ -38,8 +33,7 @@ describe("ConfigService", () => {
 
     it("should retrieve config joined by '.'", () => {
       expect(configService.get("jira.clientId")).toEqual("JIRA_CLIENT_ID");
-      expect(configService.get("jira.clientSecret"))
-        .toEqual("JIRA_CLIENT_SECRET");
+      expect(configService.get("jira.clientSecret")).toEqual("JIRA_CLIENT_SECRET");
     });
 
     it("should return undefined for non-existent key", () => {
@@ -66,32 +60,29 @@ describe("configFactory", () => {
     process.env = OLD_ENV;
   });
 
-  it("should return a ConfigService instance with values from process.env",
-    () => {
-      const configService: ConfigService = configFactory();
+  it("should return a ConfigService instance with values from process.env", () => {
+    const configService: ConfigService = configFactory();
 
-      expect(configService.get("web.baseUrl")).toEqual("http://example.com");
+    expect(configService.get("web.baseUrl")).toEqual("http://example.com");
 
-      expect(configService.get("jira.clientId")).toEqual("JIRA_CLIENT_ID");
-      expect(configService.get("jira.clientSecret"))
-        .toEqual("JIRA_CLIENT_SECRET");
-      expect(configService.get("jira.redirectURI")).toEqual("http://example.com/auth/jira/callback");
-    });
+    expect(configService.get("jira.clientId")).toEqual("JIRA_CLIENT_ID");
+    expect(configService.get("jira.clientSecret")).toEqual("JIRA_CLIENT_SECRET");
+    expect(configService.get("jira.redirectURI")).toEqual("http://example.com/auth/jira/callback");
+  });
 
   // eslint-disable-next-line max-len
-  it("should return a ConfigService instance with empty values if process.env is not set",
-    () => {
-      delete process.env.BASE_URL;
-      delete process.env.JIRA_CLIENT_ID;
-      delete process.env.JIRA_CLIENT_SECRET;
-      delete process.env.JIRA_REDIRECT_URI;
+  it("should return a ConfigService instance with empty values if process.env is not set", () => {
+    delete process.env.BASE_URL;
+    delete process.env.JIRA_CLIENT_ID;
+    delete process.env.JIRA_CLIENT_SECRET;
+    delete process.env.JIRA_REDIRECT_URI;
 
-      const configService: ConfigService = configFactory();
+    const configService: ConfigService = configFactory();
 
-      expect(configService.get("web.baseUrl")).toEqual("");
+    expect(configService.get("web.baseUrl")).toEqual("");
 
-      expect(configService.get("jira.clientId")).toEqual("");
-      expect(configService.get("jira.clientSecret")).toEqual("");
-      expect(configService.get("jira.redirectURI")).toEqual("");
-    });
+    expect(configService.get("jira.clientId")).toEqual("");
+    expect(configService.get("jira.clientSecret")).toEqual("");
+    expect(configService.get("jira.redirectURI")).toEqual("");
+  });
 });

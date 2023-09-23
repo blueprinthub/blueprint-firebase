@@ -1,7 +1,6 @@
-
-import {injectable} from "tsyringe";
+import { injectable } from "tsyringe";
 import * as functions from "firebase-functions";
-import {PullEventsUseCase} from "../../domain/usecases/pull-events.usecase";
+import { PullEventsUseCase } from "../../domain/usecases/pull-events.usecase";
 
 /**
  * The context for the pull events controller.
@@ -10,8 +9,8 @@ import {PullEventsUseCase} from "../../domain/usecases/pull-events.usecase";
  */
 type PullEventsContext = {
   uid: string;
-  authenticatorId: string
-}
+  authenticatorId: string;
+};
 
 @injectable()
 /**
@@ -24,7 +23,7 @@ export class PullEventsController {
    * @param {PullEventsUseCase} pullEventsUseCase The use case for
    *  pulling events.
    */
-  constructor(public pullEventsUseCase: PullEventsUseCase) { }
+  constructor(public pullEventsUseCase: PullEventsUseCase) {}
 
   /**
    * Executes the controller by pulling events from the remote repository
@@ -36,10 +35,12 @@ export class PullEventsController {
    * @return {Promise<void>} A Promise that resolves when the events have been
    * added to the local repository.
    */
-  async execute(snapshot: functions.firestore.QueryDocumentSnapshot,
-    context: functions.EventContext<PullEventsContext>): Promise<void> {
-    const {uid, authenticatorId} = context.params;
-    const {platformName} = snapshot.data();
+  async execute(
+    snapshot: functions.firestore.QueryDocumentSnapshot,
+    context: functions.EventContext<PullEventsContext>,
+  ): Promise<void> {
+    const { uid, authenticatorId } = context.params;
+    const { platformName } = snapshot.data();
 
     await this.pullEventsUseCase.execute(platformName, uid, authenticatorId);
   }

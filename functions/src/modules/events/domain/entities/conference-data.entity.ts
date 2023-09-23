@@ -1,4 +1,3 @@
-
 /**
  * Represents an entry point for a conference, such as a video call
  * or phone call.
@@ -20,9 +19,9 @@
  * ```
  */
 export interface EntryPoint {
-    entryPointType?: string;
-    label?: string;
-    uri?: string;
+  entryPointType?: string;
+  label?: string;
+  uri?: string;
 }
 
 /**
@@ -48,6 +47,6 @@ export interface EntryPoint {
  * ```
  */
 export interface ConferenceData {
-    entryPoints: Iterable<EntryPoint>;
-    notes?: string;
+  entryPoints: Iterable<EntryPoint>;
+  notes?: string;
 }

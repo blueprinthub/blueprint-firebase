@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-import {injectable} from "tsyringe";
+import { injectable } from "tsyringe";
 import * as functions from "firebase-functions";
-import {AddTask} from "../../domain/usecases/add-task.usecase";
+import { AddTask } from "../../domain/usecases/add-task.usecase";
 
 /**
  * Controller for adding a task via API key. This implementation is
@@ -11,12 +11,10 @@ import {AddTask} from "../../domain/usecases/add-task.usecase";
  */
 @injectable()
 export class AddTaskViaApiKey {
-  constructor(
-    public add:AddTask
-  ) {}
+  constructor(public add: AddTask) {}
 
-  async execute(req:functions.Request, res:functions.Response) {
-    const uid = req.headers["uid"] as string;
+  async execute(req: functions.Request, res: functions.Response) {
+    const uid = req.headers.uid as string;
     await this.add.execute(req.body, uid);
     res.json();
   }

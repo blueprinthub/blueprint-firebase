@@ -1,7 +1,6 @@
-
-import {injectable} from "tsyringe";
+import { injectable } from "tsyringe";
 import * as functions from "firebase-functions";
-import {AddEventUseCase} from "../../domain/usecases/add-event.usecase";
+import { AddEventUseCase } from "../../domain/usecases/add-event.usecase";
 
 @injectable()
 /**
@@ -12,7 +11,7 @@ export class AddEventViaApiKeyController {
    * Creates a new instance of the AddEventViaApiKeyController class.
    * @param {AddEventUseCase} addEventUseCase The use case for adding events.
    */
-  constructor(public addEventUseCase: AddEventUseCase) { }
+  constructor(public addEventUseCase: AddEventUseCase) {}
 
   /**
    * Executes the controller by calling the use case to add the event.
@@ -21,9 +20,8 @@ export class AddEventViaApiKeyController {
    * @return {Promise<void>}A Promise that resolves when the event has
    * been added to the system.
    */
-  async execute(req: functions.Request, res: functions.Response):
-    Promise<void> {
-    const uid = req.headers["uid"] as string;
+  async execute(req: functions.Request, res: functions.Response): Promise<void> {
+    const uid = req.headers.uid as string;
     await this.addEventUseCase.execute(req.body, uid);
     res.json();
   }

@@ -1,8 +1,4 @@
-import {
-  AttendantStatus, ConferenceData, PlatformName,
-  User, Event,
-} from "../../entities";
-
+import { AttendantStatus, ConferenceData, PlatformName, User, Event } from "../../entities";
 
 const testUser: User = {
   platformUrl: "https://example.com",
@@ -27,7 +23,6 @@ const testConferenceData: ConferenceData = {
   notes: "Please be on time.",
 };
 
-
 export const testEvent: Event = {
   startTime: new Date("2022-01-01T09:00:00Z"),
   endTime: new Date("2022-01-01T10:00:00Z"),
@@ -36,9 +31,7 @@ export const testEvent: Event = {
   isAllDay: false,
   colorHex: "#4285F4",
   organizer: testUser,
-  attendees: new Map([
-    [testUser, AttendantStatus.Accepted],
-  ]),
+  attendees: new Map([[testUser, AttendantStatus.Accepted]]),
   platformLink: "https://example.com/meeting",
   platform: PlatformName.GoogleCalendar,
   attendantStatus: AttendantStatus.Accepted,

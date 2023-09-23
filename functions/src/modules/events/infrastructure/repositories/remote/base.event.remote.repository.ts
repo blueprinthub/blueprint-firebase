@@ -1,7 +1,6 @@
-import {Firestore} from "firebase-admin/firestore";
-import {Event, PlatformName} from "../../../domain/entities";
-import {EventRemoteRepository}
-  from "../../../domain/repositories/remote/event.remote.repository";
+import { Firestore } from "firebase-admin/firestore";
+import { Event, PlatformName } from "../../../domain/entities";
+import { EventRemoteRepository } from "../../../domain/repositories/remote/event.remote.repository";
 
 /**
  * An abstract base class for EventRemoteRepository implementations.
@@ -14,8 +13,7 @@ import {EventRemoteRepository}
  * @template RemoteEvent The type of the event in the remote data source.
  * @implements {EventRemoteRepository}
  */
-export abstract class BaseEventRemoteRepository<RemoteEvent>
-implements EventRemoteRepository {
+export abstract class BaseEventRemoteRepository<RemoteEvent> implements EventRemoteRepository {
   /**
    * Creates a new instance of BaseEventRemoteRepository.
    *
@@ -24,9 +22,10 @@ implements EventRemoteRepository {
    * @param {Mapper<RemoteEvent>} mapper - A mapper function to map a
    * RemoteEvent object to an Event entity.
    */
-  constructor(private readonly firestore: Firestore,
+  constructor(
+    private readonly firestore: Firestore,
     private readonly mapper: Mapper<RemoteEvent>,
-  ) { }
+  ) {}
 
   /**
    * Retrieves the access token for a user based on their uid
@@ -36,8 +35,7 @@ implements EventRemoteRepository {
    * @param {string} authenticatorId - The ID of the authenticator.
    * @return {Promise<string>} The access token as a Promise.
    */
-  private async getAccess(uid: string, authenticatorId: string):
-    Promise<string> {
+  private async getAccess(uid: string, authenticatorId: string): Promise<string> {
     const accessFirestoreDoc = await this.firestore
       .collection("users")
       .doc(uid)
@@ -60,7 +58,6 @@ implements EventRemoteRepository {
    */
   abstract getEvents(accessToken: string): Promise<RemoteEvent[]>;
 
-
   /**
    * Platform name to indicate which platform the remote repository
    * is interacting with.
@@ -78,10 +75,7 @@ implements EventRemoteRepository {
    * @param {Event} [lastPulledEvent] - Optional last pulled event.
    * @return {Promise<Event[]>} A Promise containing an array of Event entities.
    */
-  async pull(
-    uid: string,
-    authenticatorId: string,
-  ): Promise<Event[]> {
+  async pull(uid: string, authenticatorId: string): Promise<Event[]> {
     const accessToken = await this.getAccess(uid, authenticatorId);
     const nativeTasks = await this.getEvents(accessToken);
     return nativeTasks.map(this.mapper.fromRemoteEvent);

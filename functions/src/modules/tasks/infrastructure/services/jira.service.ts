@@ -1,14 +1,12 @@
 /* eslint-disable require-jsdoc */
-import {Task} from "../../domain/entities/task.entity";
-import {
-  AbstractRemoteRepository,
-} from "../repositories/factories/remote.repository.abstract";
 import axios from "axios";
-import {PlatformName} from "../../domain/entities/platform.enum";
-import {Project} from "../../domain/entities/project.entity";
-import {Priority} from "../../domain/entities/priority.entity";
-import {Label} from "../../domain/entities/label.entity";
-import {User} from "../../domain/entities/user.entity";
+import { Task } from "../../domain/entities/task.entity";
+import { AbstractRemoteRepository } from "../repositories/factories/remote.repository.abstract";
+import { PlatformName } from "../../domain/entities/platform.enum";
+import { Project } from "../../domain/entities/project.entity";
+import { Priority } from "../../domain/entities/priority.entity";
+import { Label } from "../../domain/entities/label.entity";
+import { User } from "../../domain/entities/user.entity";
 
 type JiraTask = {
   id: string;
@@ -22,13 +20,13 @@ type JiraTask = {
     timeestimate: number;
     timespent: number;
     assignee: JiraApiUser;
-    status: any,
+    status: any;
     created: string;
     updated: string;
     priority: Record<string, any>;
-    project: JiraProject,
-    creator: JiraApiUser,
-  }
+    project: JiraProject;
+    creator: JiraApiUser;
+  };
 };
 interface JiraProject {
   id: string;
@@ -36,7 +34,7 @@ interface JiraProject {
   name: string;
   self: string;
   description: string;
-  avatarUrls: Record<string, string>
+  avatarUrls: Record<string, string>;
 }
 
 interface JiraApiUser {
@@ -50,8 +48,8 @@ interface JiraDescription {
   type: string;
   content: Array<DescriptionContent>;
 }
-interface DescriptionContent{
-  content: Array<{text: string}>;
+interface DescriptionContent {
+  content: Array<{ text: string }>;
 }
 
 export class JiraRemoteRepository extends AbstractRemoteRepository<JiraTask> {
@@ -69,8 +67,7 @@ export class JiraRemoteRepository extends AbstractRemoteRepository<JiraTask> {
   }
 
   private async getCloudIds(accessToken: string): Promise<string[]> {
-    const {data: clouds} = await
-    axios.get<{ id: string }[]>(this.CLOUDS_API_URL, {
+    const { data: clouds } = await axios.get<{ id: string }[]>(this.CLOUDS_API_URL, {
       headers: this.buildHeaders(accessToken),
     });
     return clouds.map((cloud) => cloud.id);
@@ -81,7 +78,7 @@ export class JiraRemoteRepository extends AbstractRemoteRepository<JiraTask> {
 
     const jiraTasks = clouds.map(async (cloudId) => {
       const searchUrl = this.buildSearchUrl(cloudId);
-      const {data} = await axios.get<{ issues: JiraTask[] }>(searchUrl, {
+      const { data } = await axios.get<{ issues: JiraTask[] }>(searchUrl, {
         headers: this.buildHeaders(accessToken),
       });
       return data.issues;
@@ -104,24 +101,21 @@ export class JiraRemoteRepository extends AbstractRemoteRepository<JiraTask> {
  * API response
  * @return {string} the description of the task
  */
-function fromJiraApiDescriptionToString(
-  descriptionField?: JiraDescription
-): string {
+function fromJiraApiDescriptionToString(descriptionField?: JiraDescription): string {
   let description: string;
 
   if (!descriptionField) {
     description = "";
   } else {
     const descriptionContent = descriptionField.content;
-    description = descriptionContent.map((e) => {
-      const content = e.content;
-      if (!content) {
-        return "";
-      }
-      return content
-        .map((e) => (e.text as string) ?? "")
-        .join("\n");
-    })
+    description = descriptionContent
+      .map((e) => {
+        const { content } = e;
+        if (!content) {
+          return "";
+        }
+        return content.map((e) => (e.text as string) ?? "").join("\n");
+      })
       .join("\r");
   }
 
@@ -133,8 +127,7 @@ function fromJiraApiDescriptionToString(
  * @return {Priority} a number representing the priority of the task.
  * That number is 1|2|3|4|5.
  */
-function fromJiraApiPriorityToPriority(priority?: Record<string, string>)
-  : Priority {
+function fromJiraApiPriorityToPriority(priority?: Record<string, string>): Priority {
   // TODO(yarn-rp): this function is not working completely fine, since it is
   // not ensuring that the priority is a number from 1 to 5.
   const priorityNumber = priority?.id;
@@ -149,24 +142,23 @@ function fromJiraApiPriorityToPriority(priority?: Record<string, string>)
 }
 /**
  * Convert a Jira API status object to a Status object.
-  * @param {Record<string,string>} status the api status object
-  * @return {Label} a label representing the status of the task.
+ * @param {Record<string,string>} status the api status object
+ * @return {Label} a label representing the status of the task.
  */
 function fromJiraApiStatusToStatus(status?: Record<string, any>): Label {
   if (status == null) {
-    return {name: "No Status", colorHex: "#FFC107"};
+    return { name: "No Status", colorHex: "#FFC107" };
   }
 
-  const name = status["name"] ?? "";
-  const colorName = status["statusCategory"]?.["colorName"] ?? "";
+  const name = status.name ?? "";
+  const colorName = status.statusCategory?.colorName ?? "";
   // if colorName is string, returning the color associated with that name
   if (typeof colorName === "string") {
-    return {name, colorHex: getColorHexByName(colorName)};
+    return { name, colorHex: getColorHexByName(colorName) };
   }
 
-  return {name, colorHex: "#FFC107"};
+  return { name, colorHex: "#FFC107" };
 }
-
 
 /**
  * Returns the hex code of the color associated with a given color name.
@@ -179,7 +171,7 @@ function fromJiraApiStatusToStatus(status?: Record<string, any>): Label {
  * @param {string} name the name of the color
  * @return {string} the hex code of the color associated with the given name
  * or a default color if the color is not found.
-  */
+ */
 function getColorHexByName(name: string): string {
   // TODO(yarn-rp): implement this function properly, maybe calling to a
   // different service and fetching the color from database or just having
@@ -192,7 +184,7 @@ function fromJiraApiUserToUser(user: JiraApiUser): User {
   const displayName = user.displayName ?? "";
   const avatarUrl = user.avatarUrls?.["48x48"] ?? "";
 
-  return {platformURL, displayName, avatarUrl};
+  return { platformURL, displayName, avatarUrl };
 }
 
 /**
@@ -242,7 +234,7 @@ function colorFromProjectName(projectName: string): string {
   const brightness = 90;
 
   // Convert the HSV values to RGB and then to a hex code
-  const {r, g, b} = hsvToRgb(hue, saturation, brightness);
+  const { r, g, b } = hsvToRgb(hue, saturation, brightness);
   return rgbToHex(r, g, b);
 }
 
@@ -251,19 +243,19 @@ function hsvToRgb(h: number, s: number, v: number) {
   const c = v * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = v - c;
-  let rgb: { r: number, g: number, b: number };
+  let rgb: { r: number; g: number; b: number };
   if (h < 60) {
-    rgb = {r: c, g: x, b: 0};
+    rgb = { r: c, g: x, b: 0 };
   } else if (h < 120) {
-    rgb = {r: x, g: c, b: 0};
+    rgb = { r: x, g: c, b: 0 };
   } else if (h < 180) {
-    rgb = {r: 0, g: c, b: x};
+    rgb = { r: 0, g: c, b: x };
   } else if (h < 240) {
-    rgb = {r: 0, g: x, b: c};
+    rgb = { r: 0, g: x, b: c };
   } else if (h < 300) {
-    rgb = {r: x, g: 0, b: c};
+    rgb = { r: x, g: 0, b: c };
   } else {
-    rgb = {r: c, g: 0, b: x};
+    rgb = { r: c, g: 0, b: x };
   }
   return {
     r: Math.round((rgb.r + m) * 255),
@@ -274,8 +266,7 @@ function hsvToRgb(h: number, s: number, v: number) {
 
 // Helper function to convert an RGB color to a hex code
 function rgbToHex(r: number, g: number, b: number) {
-  return `#${r.toString(16).padStart(2, "0")}${g.toString(16)
-    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
 /**
@@ -289,7 +280,7 @@ function fromJiraProjectToProject(project: JiraProject): Project {
   const projectId = project.id;
   const projectName = project.name;
   const platformURL = project.self;
-  const description = project.description;
+  const { description } = project;
   const iconUrl = project.avatarUrls?.$16X16;
 
   if (projectId == null) {
@@ -329,7 +320,7 @@ function fromJiraApiIssueToTask(jiraIssue: JiraTask): Task {
     throw new Error("Issue fields are null");
   }
   const issueId = jiraIssue.id;
-  const fields = jiraIssue.fields;
+  const { fields } = jiraIssue;
 
   const createdAt = new Date(fields.created as string);
   const updatedAt = new Date(fields.updated as string);
@@ -343,7 +334,7 @@ function fromJiraApiIssueToTask(jiraIssue: JiraTask): Task {
   const estimatedTime = fields.timeestimate as number | undefined;
   const loggedTime = fields.timespent as number | undefined;
   const assigned = fields.assignee;
-  const creator = fields.creator;
+  const { creator } = fields;
   const isCompleted = false;
   const status = fromJiraApiStatusToStatus(fields.status);
   const priority = fromJiraApiPriorityToPriority(fields.priority);
@@ -355,21 +346,21 @@ function fromJiraApiIssueToTask(jiraIssue: JiraTask): Task {
   const userAssigned = fromJiraApiUserToUser(assigned);
   const task: Task = {
     id: issueId,
-    createdAt: createdAt,
-    updatedAt: updatedAt,
-    project: project,
+    createdAt,
+    updatedAt,
+    project,
     taskURL: getTaskUrl(jiraIssue) || new URL(""),
-    title: title,
-    description: description,
+    title,
+    description,
     startDate: startDate.getTime() === 0 ? undefined : startDate,
     dueDate: dueDate.getTime() === 0 ? undefined : dueDate,
-    estimatedTime: estimatedTime,
-    loggedTime: loggedTime,
+    estimatedTime,
+    loggedTime,
     assigned: [userAssigned] || [],
     creator: userCreator,
-    isCompleted: isCompleted,
+    isCompleted,
     labels: [status],
-    priority: priority,
+    priority,
   };
   return task;
 }

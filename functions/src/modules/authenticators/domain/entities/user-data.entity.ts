@@ -1,5 +1,5 @@
-export interface UserData{
-  gid:string;
-  name?:string;
-  email?:string;
+export interface UserData {
+  gid: string;
+  name?: string;
+  email?: string;
 }

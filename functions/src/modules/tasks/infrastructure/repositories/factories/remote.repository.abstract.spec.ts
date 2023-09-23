@@ -1,9 +1,10 @@
 /* eslint-disable require-jsdoc */
 import "reflect-metadata";
-import {AbstractRemoteRepository} from "./remote.repository.abstract";
+import { AbstractRemoteRepository } from "./remote.repository.abstract";
 
 class DummyRemote extends AbstractRemoteRepository<never> {
   getTasks = jest.fn();
+
   mapper = jest.fn();
 }
 

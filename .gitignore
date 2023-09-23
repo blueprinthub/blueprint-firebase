@@ -68,3 +68,6 @@ functions/node_modules/
 
 # VSCode files
 .vscode/
+
+# emulator
+emulators/

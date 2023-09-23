@@ -1,4 +1,4 @@
-import {PlatformName} from "./platform.enum";
+import { PlatformName } from "./platform.enum";
 
 /**
  * The representation of a project in Blueprint. This project is

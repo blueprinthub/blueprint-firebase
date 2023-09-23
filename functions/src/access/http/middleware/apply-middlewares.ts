@@ -1,23 +1,22 @@
 import * as functions from "firebase-functions";
 
-export type Middleware =
-  (req:functions.Request, res:functions.Response)=> boolean | Promise<boolean>;
+export type Middleware = (req: functions.Request, res: functions.Response) => boolean | Promise<boolean>;
 
-type Handler =
-  (req:functions.Request, res:functions.Response)=> void | Promise<void>;
+type Handler = (req: functions.Request, res: functions.Response) => void | Promise<void>;
 
-export const withMiddlewares = (...mids:Middleware[])=> (handler:Handler) => {
-  return functions.https.onRequest(async (req, res) => {
-    let next = true;
+export const withMiddlewares =
+  (...mids: Middleware[]) =>
+  (handler: Handler) => {
+    return functions.https.onRequest(async (req, res) => {
+      let next = true;
 
-    for (const mid of mids) {
-      next = await mid(req, res);
-      if (!next) break;
-    }
+      for (const mid of mids) {
+        next = await mid(req, res);
+        if (!next) break;
+      }
 
-    if (next) {
-      handler(req, res);
-    }
-  });
-};
-
+      if (next) {
+        handler(req, res);
+      }
+    });
+  };
