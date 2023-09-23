@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {container} from "tsyringe";
 import {ConnectOAuth} from "../../domain/usecases/connect-oauth.usecase";
 import {ConnectController} from "./connect.controller";
+import {AuthenticatorType} from "../../domain/entities/authenticator-type.enum";
 
 jest.mock("../../domain/usecases/connect-oauth.usecase");
 
@@ -31,6 +32,7 @@ describe("TasksTriggers", () => {
         {
           code: "test-code",
           platform: "test-platform",
+          type: AuthenticatorType.Task,
         };
 
       const execute =

@@ -27,6 +27,7 @@ export class JiraOAuthStrategy implements OAuth2Repository {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
       platformName: "jira",
+      type: claim.type,
     };
   }
   async getUser(access: Omit<Access, "user">): Promise<UserData> {
