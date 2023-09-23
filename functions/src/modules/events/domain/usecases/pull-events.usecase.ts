@@ -1,10 +1,8 @@
 /* eslint-disable require-jsdoc */
-import {inject, injectable} from "tsyringe";
-import {Event, PlatformName} from "../entities";
-import {EventLocalRepository}
-  from "../repositories/local/event.local.repository";
-import {EventRemoteRepositoryFactory}
-  from "../repositories/remote/event.remote.repository.factory";
+import { inject, injectable } from "tsyringe";
+import { Event, PlatformName } from "../entities";
+import { EventLocalRepository } from "../repositories/local/event.local.repository";
+import { EventRemoteRepositoryFactory } from "../repositories/remote/event.remote.repository.factory";
 
 /**
  * Use case for pulling events from a remote repository and adding
@@ -24,12 +22,11 @@ export class PullEventsUseCase {
    * for creating remote event repositories.
    */
   constructor(
-    @inject("EventLocalRepository") private readonly eventRepository:
-      EventLocalRepository,
+    @inject("EventLocalRepository") private readonly eventRepository: EventLocalRepository,
 
     @inject("EventRemoteRepositoryFactory")
-    private readonly remoteFactory: EventRemoteRepositoryFactory
-  ) { }
+    private readonly remoteFactory: EventRemoteRepositoryFactory,
+  ) {}
 
   /**
    * Executes the use case by pulling events from the remote
@@ -43,17 +40,12 @@ export class PullEventsUseCase {
    * @return {Promise<void>}A Promise that resolves when the events have been
    * added to the local repository.
    */
-  async execute(
-    platform: PlatformName,
-    uid: string,
-    authenticatorId: string): Promise<void> {
+  async execute(platform: PlatformName, uid: string, authenticatorId: string): Promise<void> {
     const remoteRepo = this.remoteFactory.buildFor(platform);
 
-    const lastEventOrNone = await this.eventRepository.
-      fetchLastFromPlatform(platform, uid);
+    const lastEventOrNone = await this.eventRepository.fetchLastFromPlatform(platform, uid);
 
-    const events: Event[] = await remoteRepo.
-      pull(uid, authenticatorId, lastEventOrNone);
+    const events: Event[] = await remoteRepo.pull(uid, authenticatorId, lastEventOrNone);
 
     await this.eventRepository.add(events, uid);
   }

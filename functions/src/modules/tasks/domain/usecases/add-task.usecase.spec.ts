@@ -1,14 +1,13 @@
 import "reflect-metadata";
-import {container} from "tsyringe";
-import {TasksRepository} from "../repositories/tasks.repository";
-import {AddTask} from "./add-task.usecase";
-import {mockTask} from "./__mocks__/task.mock";
+import { container } from "tsyringe";
+import { TasksRepository } from "../repositories/tasks.repository";
+import { AddTask } from "./add-task.usecase";
+import { mockTask } from "./__mocks__/task.mock";
 
 describe("AddTask", () => {
   const mockUid = "test-uid";
 
-
-  const tasksRepoMock:TasksRepository = {
+  const tasksRepoMock: TasksRepository = {
     add: jest.fn(),
     fetchLastFromPlatform: jest.fn(),
   };
@@ -16,7 +15,7 @@ describe("AddTask", () => {
   let addTask: AddTask;
 
   beforeEach(() => {
-    container.register("TasksRepository", {useValue: tasksRepoMock});
+    container.register("TasksRepository", { useValue: tasksRepoMock });
     addTask = container.resolve(AddTask);
   });
 

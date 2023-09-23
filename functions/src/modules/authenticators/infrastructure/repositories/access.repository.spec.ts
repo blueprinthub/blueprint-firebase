@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import {FirestoreAccessRepository} from "./access.repository";
-import {Access} from "../../domain/entities/access.entity";
-import {container} from "tsyringe";
+import { container } from "tsyringe";
+import { FirestoreAccessRepository } from "./access.repository";
+import { Access } from "../../domain/entities/access.entity";
 
 describe("FirestoreAccessRepository", () => {
   let repo: FirestoreAccessRepository;
@@ -16,7 +16,7 @@ describe("FirestoreAccessRepository", () => {
       set: jest.fn(),
     };
     container.clearInstances();
-    container.register("firestore", {useValue: firestoreMock});
+    container.register("firestore", { useValue: firestoreMock });
     repo = container.resolve(FirestoreAccessRepository);
   });
 
@@ -24,7 +24,7 @@ describe("FirestoreAccessRepository", () => {
     const access: Access = {
       accessToken: "abc",
       platformName: "jira",
-      user: {gid: "gid"},
+      user: { gid: "gid" },
     };
     firestoreMock.add.mockResolvedValue(undefined);
 

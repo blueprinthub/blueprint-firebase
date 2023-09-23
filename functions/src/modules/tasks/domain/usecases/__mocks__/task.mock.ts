@@ -1,8 +1,8 @@
-import {Label} from "../../entities/label.entity";
-import {PlatformName} from "../../entities/platform.enum";
-import {Project} from "../../entities/project.entity";
-import {Task} from "../../entities/task.entity";
-import {User} from "../../entities/user.entity";
+import { Label } from "../../entities/label.entity";
+import { PlatformName } from "../../entities/platform.enum";
+import { Project } from "../../entities/project.entity";
+import { Task } from "../../entities/task.entity";
+import { User } from "../../entities/user.entity";
 
 export const mockUser: User = {
   displayName: "Mock Username",
@@ -28,15 +28,12 @@ const mockProject: Project = {
   slug: "blueprint",
 };
 
-
 export const mockTask: Task = {
   createdAt: new Date(1990, 5, 12),
   updatedAt: new Date(1990, 5, 12),
   id: "1234567890",
   project: mockProject,
-  taskURL: new URL(
-    "https://jira.com/1234567890/1234567890"
-  ),
+  taskURL: new URL("https://jira.com/1234567890/1234567890"),
   isCompleted: false,
   title: "Blueprint task",
   description: "Blueprint task description",
@@ -49,4 +46,3 @@ export const mockTask: Task = {
   priority: 1,
   labels: [mockLabel],
 };
-

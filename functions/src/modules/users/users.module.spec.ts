@@ -1,8 +1,9 @@
 import "reflect-metadata";
 import * as firebaseFunctionsTest from "firebase-functions-test";
-import {container} from "tsyringe";
-import {FeaturesList} from "firebase-functions-test/lib/features";
+import { container } from "tsyringe";
+import { FeaturesList } from "firebase-functions-test/lib/features";
 
+import userFunctions from "./users.module";
 
 const firestoreMock = {
   collection: jest.fn().mockReturnThis(),
@@ -14,15 +15,12 @@ const apiKeyServiceMock = {
   getUserByKey: jest.fn(),
 };
 
+container.register("firestore", { useValue: firestoreMock });
 
-container.register("firestore", {useValue: firestoreMock});
-
-container.register("api-key", {useValue: apiKeyServiceMock});
-
-import userFunctions from "./users.module";
+container.register("api-key", { useValue: apiKeyServiceMock });
 
 describe("UsersModule", () => {
-  let firebaseFunctions:FeaturesList;
+  let firebaseFunctions: FeaturesList;
 
   beforeAll(() => {
     firebaseFunctions = firebaseFunctionsTest();
@@ -34,7 +32,7 @@ describe("UsersModule", () => {
 
   describe("createAfterSignUp", () => {
     it("creates a user document when a new user signs up", async () => {
-      const {createAfterSignUp} = userFunctions;
+      const { createAfterSignUp } = userFunctions;
       const user = firebaseFunctions.auth.exampleUserRecord();
       await firebaseFunctions.wrap(createAfterSignUp)(user);
 
@@ -50,30 +48,30 @@ describe("UsersModule", () => {
 
   describe("createApiKey", () => {
     it("generates a new API key for the user", async () => {
-      const {createApiKey} = userFunctions;
+      const { createApiKey } = userFunctions;
       const uid = "test-uid";
-      const context = {auth: {uid}};
+      const context = { auth: { uid } };
       const mockKey = "test-api-key";
       apiKeyServiceMock.generateUserKey.mockResolvedValueOnce(mockKey);
 
       const result = await firebaseFunctions.wrap(createApiKey)({}, context);
 
       expect(apiKeyServiceMock.generateUserKey).toHaveBeenCalledWith(uid);
-      expect(result).toEqual({key: mockKey});
+      expect(result).toEqual({ key: mockKey });
     });
   });
 
   describe("getByKey", () => {
     it("should return the user ID from the request headers", async () => {
-      const {getByKey} = userFunctions;
+      const { getByKey } = userFunctions;
       const mockUid = "test-uid";
       apiKeyServiceMock.getUserByKey.mockResolvedValueOnce(mockUid);
 
-      const reqMock = {headers: {authorization: "Token test-token"}};
-      const resMock = {json: jest.fn()};
+      const reqMock = { headers: { authorization: "Token test-token" } };
+      const resMock = { json: jest.fn() };
       await getByKey(reqMock as never, resMock as never);
 
-      expect(resMock.json).toHaveBeenCalledWith({uid: mockUid});
+      expect(resMock.json).toHaveBeenCalledWith({ uid: mockUid });
     });
   });
 });

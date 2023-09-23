@@ -1,4 +1,4 @@
 export interface OAuthClaim {
-  code:string;
-  platform:string;
+  code: string;
+  platform: string;
 }

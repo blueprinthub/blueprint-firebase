@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import {container} from "tsyringe";
-import {ApiKeyService, ApiKeyServiceImpl} from "./api-key.service";
+import { container } from "tsyringe";
+import { ApiKeyService, ApiKeyServiceImpl } from "./api-key.service";
 
 describe("ApiKeyServiceImpl", () => {
-  let firestoreMock:any;
-  let apiKeyService:ApiKeyService;
+  let firestoreMock: any;
+  let apiKeyService: ApiKeyService;
 
   beforeEach(() => {
     firestoreMock = {
@@ -15,7 +15,7 @@ describe("ApiKeyServiceImpl", () => {
       limit: jest.fn().mockReturnThis(),
       get: jest.fn(),
     };
-    container.register("firestore", {useValue: firestoreMock});
+    container.register("firestore", { useValue: firestoreMock });
     apiKeyService = container.resolve(ApiKeyServiceImpl);
   });
 
@@ -30,37 +30,33 @@ describe("ApiKeyServiceImpl", () => {
       expect(apiKey.length).toBe(35);
     });
 
-    it("should update the user document with the generated API key",
-      async () => {
-        const mockUid = "test-uid";
-        await apiKeyService.generateUserKey(mockUid);
-        expect(firestoreMock.collection).toHaveBeenCalledWith("users");
-        expect(firestoreMock.doc).toHaveBeenCalledWith(mockUid);
-        expect(firestoreMock.update).toHaveBeenCalled();
-      });
+    it("should update the user document with the generated API key", async () => {
+      const mockUid = "test-uid";
+      await apiKeyService.generateUserKey(mockUid);
+      expect(firestoreMock.collection).toHaveBeenCalledWith("users");
+      expect(firestoreMock.doc).toHaveBeenCalledWith(mockUid);
+      expect(firestoreMock.update).toHaveBeenCalled();
+    });
   });
 
   describe("getUserByKey", () => {
-    it("should return the user ID when a valid API key is provided",
-      async () => {
-        const queryResult = {
-          empty: false,
-          docs: [{id: "userid"}],
-        };
-        firestoreMock.collection("users").where.mockReturnThis();
-        firestoreMock.collection("users").where().limit.mockReturnThis();
-        firestoreMock.collection("users").where().limit()
-          .get.mockResolvedValue(queryResult);
-        const userId = await apiKeyService.getUserByKey("valid-api-key");
-        expect(userId).toBe("userid");
-      });
-
-    it("should return null when an invalid API key is provided", async () => {
-      const queryResult = {empty: true};
+    it("should return the user ID when a valid API key is provided", async () => {
+      const queryResult = {
+        empty: false,
+        docs: [{ id: "userid" }],
+      };
       firestoreMock.collection("users").where.mockReturnThis();
       firestoreMock.collection("users").where().limit.mockReturnThis();
-      firestoreMock.collection("users").where().limit()
-        .get.mockResolvedValue(queryResult);
+      firestoreMock.collection("users").where().limit().get.mockResolvedValue(queryResult);
+      const userId = await apiKeyService.getUserByKey("valid-api-key");
+      expect(userId).toBe("userid");
+    });
+
+    it("should return null when an invalid API key is provided", async () => {
+      const queryResult = { empty: true };
+      firestoreMock.collection("users").where.mockReturnThis();
+      firestoreMock.collection("users").where().limit.mockReturnThis();
+      firestoreMock.collection("users").where().limit().get.mockResolvedValue(queryResult);
       const userId = await apiKeyService.getUserByKey("invalid-api-key");
       expect(userId).toBeNull();
     });

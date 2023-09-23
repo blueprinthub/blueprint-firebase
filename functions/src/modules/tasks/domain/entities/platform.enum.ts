@@ -1,5 +1,5 @@
-export enum PlatformName{
-  Jira="jira",
-  Asana="asana",
-  Github="github"
+export enum PlatformName {
+  Jira = "jira",
+  Asana = "asana",
+  Github = "github",
 }

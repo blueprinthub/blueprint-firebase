@@ -1,7 +1,7 @@
-import {AttendantStatus} from "./attendant-status.enum";
-import {ConferenceData} from "./conference-data.entity";
-import {PlatformName} from "./platform.enum";
-import {User} from "./user.entity";
+import { AttendantStatus } from "./attendant-status.enum";
+import { ConferenceData } from "./conference-data.entity";
+import { PlatformName } from "./platform.enum";
+import { User } from "./user.entity";
 
 /**
  * Represents the properties of an event.
@@ -40,15 +40,15 @@ import {User} from "./user.entity";
  * ```
  */
 interface EventProps {
-    startTime?: Date;
-    endTime?: Date;
-    subject: string;
-    description?: string;
-    isAllDay?: boolean;
-    colorHex?: string;
-    organizer?: User;
-    attendees?: Map<User, AttendantStatus>;
-    platformLink?: string;
+  startTime?: Date;
+  endTime?: Date;
+  subject: string;
+  description?: string;
+  isAllDay?: boolean;
+  colorHex?: string;
+  organizer?: User;
+  attendees?: Map<User, AttendantStatus>;
+  platformLink?: string;
 }
 
 /**
@@ -105,7 +105,7 @@ interface EventProps {
  * ```
  */
 export interface Event extends EventProps {
-    platform: PlatformName;
-    attendantStatus: AttendantStatus;
-    conferenceData?: ConferenceData;
+  platform: PlatformName;
+  attendantStatus: AttendantStatus;
+  conferenceData?: ConferenceData;
 }

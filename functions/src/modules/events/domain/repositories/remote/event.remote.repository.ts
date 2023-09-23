@@ -1,4 +1,4 @@
-import {Event, PlatformName} from "../../entities";
+import { Event, PlatformName } from "../../entities";
 
 /**
  * A repository in charge for handling events with external platforms
@@ -17,16 +17,15 @@ export interface EventRemoteRepository {
   platformName: PlatformName;
 
   /**
- * Pulls events from the remote platform for the given user ID
- * and authenticator ID.
- * @param {string} uid The user ID to associate with the events.
- * @param {string} authenticatorId The authenticator ID to use for
- * authentication.
- * @param {Event} lastPulledEvent The last event that was pulled from the
- * repository (optional).
- * @returns {Promise<Event>} A Promise that resolves with an array of
- * events that have been added to the repository since the last pull.
- */
-  pull(uid: string, authenticatorId: string, lastPulledTask?: Event)
-    : Promise<Event[]>
+   * Pulls events from the remote platform for the given user ID
+   * and authenticator ID.
+   * @param {string} uid The user ID to associate with the events.
+   * @param {string} authenticatorId The authenticator ID to use for
+   * authentication.
+   * @param {Event} lastPulledEvent The last event that was pulled from the
+   * repository (optional).
+   * @returns {Promise<Event>} A Promise that resolves with an array of
+   * events that have been added to the repository since the last pull.
+   */
+  pull(uid: string, authenticatorId: string, lastPulledTask?: Event): Promise<Event[]>;
 }

@@ -1,16 +1,12 @@
 /* eslint-disable require-jsdoc */
-import {Firestore} from "firebase-admin/firestore";
-import {Task} from "../../../domain/entities/task.entity";
-import {
-  RemoteRepository,
-} from "../../../domain/repositories/factories/impl/remote.repository";
+import { Firestore } from "firebase-admin/firestore";
+import { Task } from "../../../domain/entities/task.entity";
+import { RemoteRepository } from "../../../domain/repositories/factories/impl/remote.repository";
 
+export abstract class AbstractRemoteRepository<RemoteTask> implements RemoteRepository {
+  constructor(private readonly firestore: Firestore) {}
 
-export abstract class AbstractRemoteRepository<RemoteTask>
-implements RemoteRepository {
-  constructor(private readonly firestore:Firestore) {}
-
-  async getAccess(uid:string, authenticatorId:string):Promise<string> {
+  async getAccess(uid: string, authenticatorId: string): Promise<string> {
     const accessFirestoreDoc = await this.firestore
       .collection("users")
       .doc(uid)
@@ -18,18 +14,15 @@ implements RemoteRepository {
       .doc(authenticatorId)
       .get();
 
-    const accessToken:string = accessFirestoreDoc.get("accessToken");
+    const accessToken: string = accessFirestoreDoc.get("accessToken");
     return accessToken;
   }
 
-  abstract getTasks(accessToken:string):Promise<RemoteTask[]>
+  abstract getTasks(accessToken: string): Promise<RemoteTask[]>;
 
-  abstract mapper(remoteTask:RemoteTask):Task;
+  abstract mapper(remoteTask: RemoteTask): Task;
 
-  async pull(
-    uid: string,
-    authenticatorId:string,
-    lastPulledTask?: Task): Promise<Task[]> {
+  async pull(uid: string, authenticatorId: string, lastPulledTask?: Task): Promise<Task[]> {
     const accessToken = await this.getAccess(uid, authenticatorId);
     const nativeTasks = await this.getTasks(accessToken);
     return nativeTasks.map(this.mapper);

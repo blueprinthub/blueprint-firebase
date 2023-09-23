@@ -1,7 +1,6 @@
-import {Timestamp} from "firebase-admin/firestore";
+import { Timestamp } from "firebase-admin/firestore";
 
-
-import {Task} from "../../../domain/entities/task.entity";
+import { Task } from "../../../domain/entities/task.entity";
 
 /**
  * Firestore converter for Task entity. It is used to convert Task entity to
@@ -16,7 +15,6 @@ export const taskConverter = {
     const updatedAtTimestamp = this.getTimestamp(task.updatedAt);
     const startDateTimestamp = this.getTimestamp(task.startDate);
     const dueDateTimestamp = this.getTimestamp(task.dueDate);
-
 
     return {
       createdAt: createAtTimestamp,
@@ -49,9 +47,7 @@ export const taskConverter = {
     };
   },
 
-  fromFirestore(
-    snapshot: FirebaseFirestore.QueryDocumentSnapshot,
-  ) {
+  fromFirestore(snapshot: FirebaseFirestore.QueryDocumentSnapshot) {
     const data = snapshot.data();
 
     return {
@@ -105,5 +101,3 @@ export const taskConverter = {
     }
   },
 };
-
-
