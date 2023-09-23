@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {FirestoreAccessRepository} from "./access.repository";
 import {Access} from "../../domain/entities/access.entity";
 import {container} from "tsyringe";
+import {AuthenticatorType} from "../../domain/entities";
 
 describe("FirestoreAccessRepository", () => {
   let repo: FirestoreAccessRepository;
@@ -24,6 +25,7 @@ describe("FirestoreAccessRepository", () => {
     const access: Access = {
       accessToken: "abc",
       platformName: "jira",
+      type: AuthenticatorType.Task,
       user: {gid: "gid"},
     };
     firestoreMock.add.mockResolvedValue(undefined);

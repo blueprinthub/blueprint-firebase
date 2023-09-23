@@ -6,16 +6,19 @@ import {OAuthClaim} from "../entities/claim-access.entity";
 import {ConnectOAuth} from "./connect-oauth.usecase";
 import {Access} from "../entities/access.entity";
 import {UserData} from "../entities/user-data.entity";
+import {AuthenticatorType} from "../entities";
 
 describe("ConnectOAuth", () => {
   const uid = "user-id";
   const claim: OAuthClaim = {
     code: "test-code",
     platform: "jira",
+    type: AuthenticatorType.Task,
   };
   const accessWithoutUser:Omit<Access, "user"> = {
     accessToken: "test-token",
     platformName: "jira",
+    type: AuthenticatorType.Task,
   };
   const user:UserData = {
     gid: "test-jira-gid",

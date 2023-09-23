@@ -6,6 +6,7 @@ import {AsanaOAuthStrategy} from "../services/asana.service";
 import {GithubOAuthStrategy} from "../services/github.service";
 import {JiraOAuthStrategy} from "../services/jira.service";
 import {Access} from "../../domain/entities/access.entity";
+import {AuthenticatorType} from "../../domain/entities";
 
 const configServiceMock = {
   get: jest.fn(),
@@ -16,7 +17,7 @@ jest.mock("../services/asana.service");
 jest.mock("../services/github.service");
 
 describe("OAuth2RepositoryContext", () => {
-  let repoContext:OAuth2RepositoryContext;
+  let repoContext: OAuth2RepositoryContext;
 
   beforeEach(() => {
     container.register("config", {useValue: configServiceMock});
@@ -33,10 +34,14 @@ describe("OAuth2RepositoryContext", () => {
           JiraOAuthStrategy.prototype, "getUser"
         ).mockImplementation();
 
-        const claim: OAuthClaim = {platform: "jira", code: "abc"};
+        const claim: OAuthClaim = {
+          platform: "jira", code: "abc",
+          type: AuthenticatorType.Task,
+        };
         const access: Omit<Access, "user"> = {
           accessToken: "test-token",
           platformName: "jira",
+          type: AuthenticatorType.Task,
         };
 
         await repoContext.claimAccess(claim);
@@ -55,10 +60,14 @@ describe("OAuth2RepositoryContext", () => {
           AsanaOAuthStrategy.prototype, "getUser"
         ).mockImplementation();
 
-        const claim: OAuthClaim = {platform: "asana", code: "abc"};
+        const claim: OAuthClaim = {
+          platform: "asana", code: "abc",
+          type: AuthenticatorType.Task,
+        };
         const access: Omit<Access, "user"> = {
           accessToken: "test-token",
           platformName: "asana",
+          type: AuthenticatorType.Task,
         };
 
         await repoContext.claimAccess(claim);
@@ -77,10 +86,14 @@ describe("OAuth2RepositoryContext", () => {
       ).mockImplementation();
 
 
-      const claim: OAuthClaim = {platform: "github", code: "abc"};
+      const claim: OAuthClaim = {
+        platform: "github", code: "abc",
+        type: AuthenticatorType.Task,
+      };
       const access: Omit<Access, "user"> = {
         accessToken: "test-token",
         platformName: "github",
+        type: AuthenticatorType.Task,
       };
 
       await repoContext.claimAccess(claim);
