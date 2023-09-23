@@ -28,5 +28,12 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
     "import/no-unresolved": 0,
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        selector: "enumMember",
+        format: ["PascalCase"],
+      },
+    ],
   },
 };
