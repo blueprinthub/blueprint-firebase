@@ -2,7 +2,7 @@
 import * as functions from "firebase-functions";
 import {injectable} from "tsyringe";
 import {ConnectOAuth} from "../../domain/usecases/connect-oauth.usecase";
-import {AuthenticatorType} from "../../domain/entities/authenticator-type.enum";
+import {AuthenticatorType} from "../../domain/entities";
 
 export type ConnectData = {
   code:string;

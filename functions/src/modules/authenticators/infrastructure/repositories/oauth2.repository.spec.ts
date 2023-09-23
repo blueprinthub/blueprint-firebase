@@ -6,7 +6,7 @@ import {AsanaOAuthStrategy} from "../services/asana.service";
 import {GithubOAuthStrategy} from "../services/github.service";
 import {JiraOAuthStrategy} from "../services/jira.service";
 import {Access} from "../../domain/entities/access.entity";
-import {AuthenticatorType} from "../../domain/entities/authenticator-type.enum";
+import {AuthenticatorType} from "../../domain/entities";
 
 const configServiceMock = {
   get: jest.fn(),

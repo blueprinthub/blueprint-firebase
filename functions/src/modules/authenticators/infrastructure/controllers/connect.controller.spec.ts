@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {container} from "tsyringe";
 import {ConnectOAuth} from "../../domain/usecases/connect-oauth.usecase";
 import {ConnectController} from "./connect.controller";
-import {AuthenticatorType} from "../../domain/entities/authenticator-type.enum";
+import {AuthenticatorType} from "../../domain/entities";
 
 jest.mock("../../domain/usecases/connect-oauth.usecase");
 
