@@ -41,7 +41,8 @@
     }
   },
   "hosting": {
-		"cleanUrls":true,
+    "target": "api",
+    "cleanUrls":true,
     "public": "public",
     "ignore": [
       "firebase.json",
