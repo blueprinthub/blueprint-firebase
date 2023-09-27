@@ -4,6 +4,14 @@
     "staging": "blueprint-stg",
     "main": "blueprint-384623"
   },
-  "targets": {},
+  "targets": {
+    "polletask-dev": {
+      "hosting": {
+        "api": [
+          "blueprint-public-api"
+        ]
+      }
+    }
+  },
   "etags": {}
 }
