@@ -32,7 +32,6 @@ describe("OAuth2RepositoryContext", () => {
       const claim: OAuthClaim = {
         platform: "jira",
         code: "abc",
-        type: AuthenticatorType.Task,
       };
       const access: Omit<Access, "user"> = {
         accessToken: "test-token",
@@ -54,7 +53,6 @@ describe("OAuth2RepositoryContext", () => {
       const claim: OAuthClaim = {
         platform: "asana",
         code: "abc",
-        type: AuthenticatorType.Task,
       };
       const access: Omit<Access, "user"> = {
         accessToken: "test-token",
@@ -76,7 +74,6 @@ describe("OAuth2RepositoryContext", () => {
       const claim: OAuthClaim = {
         platform: "github",
         code: "abc",
-        type: AuthenticatorType.Task,
       };
       const access: Omit<Access, "user"> = {
         accessToken: "test-token",

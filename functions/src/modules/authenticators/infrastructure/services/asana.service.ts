@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import axios from "axios";
 import { ConfigService } from "../../../../common/config/config.service";
+import { AuthenticatorType } from "../../domain/entities";
 import { Access } from "../../domain/entities/access.entity";
 import { OAuthClaim } from "../../domain/entities/claim-access.entity";
 import { UserData } from "../../domain/entities/user-data.entity";
@@ -29,7 +30,7 @@ export class AsanaOAuthStrategy implements OAuth2Repository {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
       platformName: "asana",
-      type: claim.type,
+      type: AuthenticatorType.Task,
     };
   }
 

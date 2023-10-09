@@ -5,7 +5,8 @@ import { ConnectController } from "../../infrastructure/controllers/connect.cont
 const controller = container.resolve(ConnectController);
 
 const connect = functions.https.onCall(async (data, context) => {
-  return controller.execute(data, context);
+  await controller.execute(data, context);
+  return { success: true };
 });
 
 export default { connect };

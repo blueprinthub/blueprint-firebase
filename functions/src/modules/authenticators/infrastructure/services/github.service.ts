@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import axios from "axios";
 import { ConfigService } from "../../../../common/config/config.service";
+import { AuthenticatorType } from "../../domain/entities";
 import { Access } from "../../domain/entities/access.entity";
 import { OAuthClaim } from "../../domain/entities/claim-access.entity";
 import { UserData } from "../../domain/entities/user-data.entity";
@@ -27,7 +28,7 @@ export class GithubOAuthStrategy implements OAuth2Repository {
     return {
       accessToken: data.access_token,
       platformName: "github",
-      type: claim.type,
+      type: AuthenticatorType.Task,
     };
   }
 

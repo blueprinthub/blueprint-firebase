@@ -13,7 +13,6 @@ describe("ConnectOAuth", () => {
   const claim: OAuthClaim = {
     code: "test-code",
     platform: "jira",
-    type: AuthenticatorType.Task,
   };
   const accessWithoutUser: Omit<Access, "user"> = {
     accessToken: "test-token",
