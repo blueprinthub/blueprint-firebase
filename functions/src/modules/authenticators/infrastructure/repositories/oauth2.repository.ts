@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import { inject, injectable } from "tsyringe";
 import { ConfigService } from "../../../../common/config/config.service";
 import { Access } from "../../domain/entities/access.entity";
@@ -9,12 +8,23 @@ import { AsanaOAuthStrategy } from "../services/asana.service";
 import { GithubOAuthStrategy } from "../services/github.service";
 import { JiraOAuthStrategy } from "../services/jira.service";
 
+/**
+ * A context class for managing different OAuth2 strategies.
+ */
 @injectable()
 export class OAuth2RepositoryContext implements OAuth2Repository {
+  /**
+   * The currently active OAuth2 strategy.
+   */
   private strategy!: OAuth2Repository;
 
   constructor(@inject("config") private readonly config: ConfigService) {}
 
+  /**
+   * Sets the active OAuth2 strategy.
+   *
+   * @param name - The name of the strategy.
+   */
   private setStrategy(name: string) {
     switch (name) {
       case "jira":
@@ -29,11 +39,23 @@ export class OAuth2RepositoryContext implements OAuth2Repository {
     }
   }
 
+  /**
+   * Claims access to a third-party platform.
+   *
+   * @param claim - The OAuth claim.
+   * @returns An access object.
+   */
   async claimAccess(claim: OAuthClaim): Promise<Omit<Access, "user">> {
     this.setStrategy(claim.platform);
     return this.strategy.claimAccess(claim);
   }
 
+  /**
+   * Gets the user data associated with an access token.
+   *
+   * @param access - The access object.
+   * @returns The user data.
+   */
   async getUser(access: Omit<Access, "user">): Promise<UserData> {
     return this.strategy.getUser(access);
   }
