@@ -31,11 +31,23 @@ const seedFirestore = async () => {
       name: "Github",
       type: "task",
     },
+    {
+      auth: {
+        type: "oauth2",
+        url: "https://accounts.google.com/o/oauth2/v2/auth?client_id=333437725100-fkatvvanoa1o7lt9kfbb6ievgpkslroi.apps.googleusercontent.com&redirect_uri=http://localhost:3000/integrations/google/create&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/calendar.events%20https://www.googleapis.com/auth/calendar",
+      },
+      description: "Google Calendar",
+      iconUrl: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+      id: "google-calendar",
+      name: "Google Calendar",
+      type: "event",
+    },
   ];
 
   // save platforms
   await db.collection("platforms").doc("jira").set(platforms[0]);
   await db.collection("platforms").doc("github").set(platforms[1]);
+  await db.collection("platforms").doc("google-calendar").set(platforms[2]);
 };
 
 seedFirestore();
