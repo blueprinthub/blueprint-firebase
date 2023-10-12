@@ -19,7 +19,7 @@
   "engines": {
     "node": "16"
   },
-  "main": "lib/index.js",
+  "main": "lib/src/index.js",
   "dependencies": {
     "asana": "^1.0.2",
     "axios": "^1.4.0",

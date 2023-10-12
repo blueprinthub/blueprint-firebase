@@ -3,7 +3,7 @@ import * as functions from "firebase-functions";
 import { PullTasksController } from "../../infrastructure/controllers/pull-tasks.controller";
 import { Access, AuthenticatorType } from "../../../authenticators/domain/entities";
 
-const controller = container.resolve(PullTasksController);
+const pullTasks = container.resolve(PullTasksController);
 
 const clone = functions.firestore
   .document("users/{uid}/authenticators/{authenticatorId}")
@@ -12,7 +12,7 @@ const clone = functions.firestore
 
     const type = authenticatorData.type;
     if (type == AuthenticatorType.Task) {
-      return await controller.execute(change, context);
+      return await pullTasks.execute(change, context);
     }
   });
 

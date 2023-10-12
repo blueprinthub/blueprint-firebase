@@ -6,6 +6,7 @@ import { UserData } from "../../domain/entities/user-data.entity";
 import { OAuth2Repository } from "../../domain/repositories/oauth2.repository";
 import { AsanaOAuthStrategy } from "../services/asana.service";
 import { GithubOAuthStrategy } from "../services/github.service";
+import { GoogleOAuthStrategy } from "../services/google-calendar.service";
 import { JiraOAuthStrategy } from "../services/jira.service";
 
 /**
@@ -26,6 +27,7 @@ export class OAuth2RepositoryContext implements OAuth2Repository {
    * @param name - The name of the strategy.
    */
   private setStrategy(name: string) {
+    console.log("SETTING STRATEGY", name);
     switch (name) {
       case "jira":
         this.strategy = new JiraOAuthStrategy(this.config);
@@ -35,6 +37,9 @@ export class OAuth2RepositoryContext implements OAuth2Repository {
         break;
       case "github":
         this.strategy = new GithubOAuthStrategy(this.config);
+        break;
+      case "google-calendar":
+        this.strategy = new GoogleOAuthStrategy(this.config);
         break;
     }
   }

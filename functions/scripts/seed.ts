@@ -34,7 +34,7 @@ const seedFirestore = async () => {
     {
       auth: {
         type: "oauth2",
-        url: "https://accounts.google.com/o/oauth2/v2/auth?client_id=333437725100-fkatvvanoa1o7lt9kfbb6ievgpkslroi.apps.googleusercontent.com&redirect_uri=http://localhost:3000/integrations/google/create&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/calendar.events%20https://www.googleapis.com/auth/calendar",
+        url: "https://accounts.google.com/o/oauth2/v2/auth?client_id=333437725100-fkatvvanoa1o7lt9kfbb6ievgpkslroi.apps.googleusercontent.com&redirect_uri=http://localhost:3000/integrations/google/create&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/calendar.events%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/userinfo.profile",
       },
       description: "Google Calendar",
       iconUrl: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
