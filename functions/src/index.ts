@@ -19,3 +19,7 @@ export const users = userRoutes;
 // TasksModule
 import tasksRoutes from "./modules/tasks/tasks.module";
 export const tasks = tasksRoutes;
+
+// EventsModule
+import eventsRoutes from "./modules/events/events.module";
+export const events = eventsRoutes;

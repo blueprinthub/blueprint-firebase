@@ -2,6 +2,9 @@
 import { google, calendar_v3 } from "googleapis";
 import { PlatformName } from "../../../domain/entities";
 import { BaseEventRemoteRepository } from "./base.event.remote.repository";
+import "reflect-metadata";
+import { container } from "tsyringe";
+import { ConfigService } from "../../../../../common/config/config.service";
 
 export type GoogleCalendarEvent = calendar_v3.Schema$Event;
 
@@ -60,9 +63,17 @@ export class GoogleCalendarEventRemoteRepository extends BaseEventRemoteReposito
    * @see https://developers.google.com/calendar/v3/reference
    */
   private _getCalendarAPIClient(accessToken: string): calendar_v3.Calendar {
+    const config = container.resolve<ConfigService>("config");
+    console.log("ClientID", config.get("google.clientId"));
+    const client = new google.auth.OAuth2(
+      config.get("google.clientId"),
+      config.get("google.clientSecret"),
+      config.get("google.redirectURI"),
+    );
+    client.setCredentials({ access_token: accessToken });
     return google.calendar({
       version: "v3",
-      auth: accessToken,
+      auth: client,
     });
   }
 }

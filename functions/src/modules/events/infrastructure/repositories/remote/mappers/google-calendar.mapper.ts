@@ -1,8 +1,5 @@
-// Disabling lint rule since this calendar_v3 comes from external library
-/* eslint-disable camelcase */
-import { calendar_v3 } from "googleapis";
 import { Mapper } from "../base.event.remote.repository";
-import { Event, User, AttendantStatus, PlatformName, ConferenceData } from "../../../../domain/entities";
+import { Event, User, AttendantStatus, PlatformName } from "../../../../domain/entities";
 import { GoogleCalendarEvent } from "../google-calendar.event.remote.repository";
 
 /**
@@ -12,8 +9,8 @@ import { GoogleCalendarEvent } from "../google-calendar.event.remote.repository"
 export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
   /**
    * Maps GoogleCalendarEvent to Event.
-   * @param {GoogleCalendarEvent} remoteEvent the remote event to map
-   * @return {Event} the mapped event
+   * @param remoteEvent - the remote event to map
+   * @returns the mapped event
    */
   fromRemoteEvent(remoteEvent: GoogleCalendarEvent): Event {
     const startTime = remoteEvent.start?.dateTime ? new Date(remoteEvent.start.dateTime) : undefined;
@@ -40,9 +37,9 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
 
     const platformLink = remoteEvent.htmlLink || undefined;
 
-    const conferenceData = this.getConferenceData(
-      remoteEvent.conferenceData || ({} as calendar_v3.Schema$ConferenceData),
-    );
+    // const conferenceData = this.getConferenceData(
+    //   remoteEvent.conferenceData || ({} as calendar_v3.Schema$ConferenceData),
+    // );
 
     const event: Event = {
       startTime,
@@ -56,7 +53,7 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
       platformLink,
       platform: PlatformName.GoogleCalendar,
       attendantStatus: AttendantStatus.Accepted, // Replace with the real status
-      conferenceData,
+      conferenceData: undefined,
     };
 
     return event;
@@ -65,11 +62,11 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
   /**
    * Maps conference data from Google Calendar API to ConferenceData domain
    * entity
-   * @param {calendar_v3.Schema$ConferenceData} gConferenceData the
+   * @param gConferenceData - the
    * conference data from the Google Calendar API
-   * @return {ConferenceData | undefined} the mapped conference data
+   * @returns the mapped conference data
    */
-  getConferenceData(gConferenceData: calendar_v3.Schema$ConferenceData): ConferenceData | undefined {
-    return undefined;
-  }
+  // private getConferenceData(gConferenceData: calendar_v3.Schema$ConferenceData): ConferenceData | undefined {
+  //   return undefined;
+  // }
 }
