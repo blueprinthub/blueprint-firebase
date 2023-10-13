@@ -1,4 +1,4 @@
-import { firestore } from "firebase-admin";
+import { Timestamp, type DocumentData } from "firebase-admin/firestore";
 import { Event, User, AttendantStatus } from "../../../../domain/entities";
 
 /**
@@ -8,11 +8,12 @@ import { Event, User, AttendantStatus } from "../../../../domain/entities";
 export const eventConverter: FirebaseFirestore.FirestoreDataConverter<Event> = {
   /**
    * Converts an Event object to a Firestore DocumentData object.
-   * @param {Event} event The Event object to convert.
-   * @return {firestore.DocumentData} A Firestore DocumentData object
+   * @param event - The Event object to convert.
+   * @returns A Firestore DocumentData object
    *  representing the Event object.
    */
-  toFirestore(event: Event): firestore.DocumentData {
+  toFirestore(event: Event): DocumentData {
+    console.log("Event: ", event);
     const attendees: any = {};
     if (event.attendees) {
       event.attendees.forEach((status, user) => {
@@ -20,10 +21,12 @@ export const eventConverter: FirebaseFirestore.FirestoreDataConverter<Event> = {
       });
     }
 
+    console.log("Timestamp", Timestamp.fromDate);
+
     return {
       ...event,
-      startTime: event.startTime ? firestore.Timestamp.fromDate(event.startTime) : null,
-      endTime: event.endTime ? firestore.Timestamp.fromDate(event.endTime) : null,
+      startTime: event.startTime ? Timestamp.fromDate(event.startTime) : null,
+      endTime: event.endTime ? Timestamp.fromDate(event.endTime) : null,
       organizer: event.organizer ? JSON.stringify(event.organizer) : null,
       attendees,
       conferenceData: event.conferenceData ? JSON.stringify(event.conferenceData) : null,
@@ -32,9 +35,9 @@ export const eventConverter: FirebaseFirestore.FirestoreDataConverter<Event> = {
 
   /**
    * Converts a Firestore QueryDocumentSnapshot to an Event object.
-   * @param {FirebaseFirestore.QueryDocumentSnapshot} snapshot The Firestore
+   * @param snapshot - The Firestore
    *  QueryDocumentSnapshot to convert.
-   * @return {Event} An Event object representing the
+   * @returns An Event object representing the
    * Firestore QueryDocumentSnapshot.
    */
   fromFirestore(snapshot: FirebaseFirestore.QueryDocumentSnapshot): Event {

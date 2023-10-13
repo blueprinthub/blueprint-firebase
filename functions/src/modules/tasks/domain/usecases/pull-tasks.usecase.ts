@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import { inject, injectable } from "tsyringe";
 import { PlatformName } from "../entities/platform.enum";
 import { RemoteRepositoryFactory } from "../repositories/factories/remote.repository.factory";

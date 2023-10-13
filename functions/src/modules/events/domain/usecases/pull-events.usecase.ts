@@ -7,18 +7,14 @@ import { EventRemoteRepositoryFactory } from "../repositories/remote/event.remot
 /**
  * Use case for pulling events from a remote repository and adding
  * them to the local repository.
- * @property {EventLocalRepository} eventRepository The local event repository
- * to add events to.
- * @property {EventRemoteRepositoryFactory} remoteFactory The factory
- * for creating remote event repositories.
  */
 @injectable()
 export class PullEventsUseCase {
   /**
    * Creates a new instance of the PullEvents use case.
-   * @param {EventLocalRepository} eventRepository The local event repository
+   * @param  eventRepository - The local event repository
    * to add events to.
-   * @param {EventRemoteRepositoryFactory} remoteFactory The factory
+   * @param  remoteFactory - The factory
    * for creating remote event repositories.
    */
   constructor(
@@ -31,13 +27,13 @@ export class PullEventsUseCase {
   /**
    * Executes the use case by pulling events from the remote
    * repository and adding them to the local repository.
-   * @param {PlatformName} platform The platform to pull
+   * @param platform - The platform to pull
    * events from.
-   * @param {string} uid The user ID to associate
+   * @param uid - The user ID to associate
    * with the events.
-   * @param {string} authenticatorId The authenticator ID to
+   * @param authenticatorId - The authenticator ID to
    * use for authentication.
-   * @return {Promise<void>}A Promise that resolves when the events have been
+   * @returns A Promise that resolves when the events have been
    * added to the local repository.
    */
   async execute(platform: PlatformName, uid: string, authenticatorId: string): Promise<void> {

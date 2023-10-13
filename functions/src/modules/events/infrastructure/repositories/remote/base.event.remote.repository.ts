@@ -9,19 +9,8 @@ import { EventRemoteRepository } from "../../../domain/repositories/remote/event
  *
  * It implements the pull method from the EventRemoteRepository interface,
  * but you will still need to implement the platformName property.
- *
- * @template RemoteEvent The type of the event in the remote data source.
- * @implements {EventRemoteRepository}
  */
 export abstract class BaseEventRemoteRepository<RemoteEvent> implements EventRemoteRepository {
-  /**
-   * Creates a new instance of BaseEventRemoteRepository.
-   *
-   * @param {Firestore} firestore - An instance of Firestore to interact
-   * with Firebase.
-   * @param {Mapper<RemoteEvent>} mapper - A mapper function to map a
-   * RemoteEvent object to an Event entity.
-   */
   constructor(
     private readonly firestore: Firestore,
     private readonly mapper: Mapper<RemoteEvent>,
@@ -31,9 +20,9 @@ export abstract class BaseEventRemoteRepository<RemoteEvent> implements EventRem
    * Retrieves the access token for a user based on their uid
    * and authenticatorId.
    *
-   * @param {string} uid - The user ID.
-   * @param {string} authenticatorId - The ID of the authenticator.
-   * @return {Promise<string>} The access token as a Promise.
+   * @param uid - The user ID.
+   * @param authenticatorId - The ID of the authenticator.
+   * @returns The access token as a Promise.
    */
   private async getAccess(uid: string, authenticatorId: string): Promise<string> {
     const accessFirestoreDoc = await this.firestore
@@ -50,10 +39,9 @@ export abstract class BaseEventRemoteRepository<RemoteEvent> implements EventRem
   /**
    * Abstract method to retrieve events from the remote source.
    *
-   * @abstract
-   * @param {string} accessToken - The access token to authenticate with
+   * @param accessToken - The access token to authenticate with
    * the remote source.
-   * @returns {Promise<RemoteEvent[]>} A Promise containing an array of
+   * @returnsA Promise containing an array of
    * RemoteEvent objects.
    */
   abstract getEvents(accessToken: string): Promise<RemoteEvent[]>;
@@ -61,19 +49,16 @@ export abstract class BaseEventRemoteRepository<RemoteEvent> implements EventRem
   /**
    * Platform name to indicate which platform the remote repository
    * is interacting with.
-   *
-   * @abstract
-   * @type {PlatformName}
    */
   abstract platformName: PlatformName;
 
   /**
    * Retrieves events from a remote source and maps them to domain entities.
    *
-   * @param {string} uid - The user ID.
-   * @param {string} authenticatorId - The ID of the authenticator.
-   * @param {Event} [lastPulledEvent] - Optional last pulled event.
-   * @return {Promise<Event[]>} A Promise containing an array of Event entities.
+   * @param uid - The user ID.
+   * @param authenticatorId - The ID of the authenticator.
+   * @param lastPulledEvent - Optional last pulled event.
+   * @returns A Promise containing an array of Event entities.
    */
   async pull(uid: string, authenticatorId: string): Promise<Event[]> {
     const accessToken = await this.getAccess(uid, authenticatorId);

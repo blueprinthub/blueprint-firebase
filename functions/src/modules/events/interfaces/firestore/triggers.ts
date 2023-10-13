@@ -1,9 +1,9 @@
 import { container } from "tsyringe";
 import * as functions from "firebase-functions";
-import { PullTasksController } from "../../infrastructure/controllers/pull-tasks.controller";
 import { Access, AuthenticatorType } from "../../../authenticators/domain/entities";
+import { PullEventsController } from "../../infrastructure/controllers/pull-events.controller";
 
-const pullTasks = container.resolve(PullTasksController);
+const pullEvents = container.resolve(PullEventsController);
 
 const clone = functions.firestore
   .document("users/{uid}/authenticators/{authenticatorId}")
@@ -11,8 +11,8 @@ const clone = functions.firestore
     const authenticatorData = change.data() as Access;
 
     const type = authenticatorData.type;
-    if (type == AuthenticatorType.Task) {
-      return await pullTasks.execute(change, context);
+    if (type == AuthenticatorType.Event) {
+      return await pullEvents.execute(change, context);
     }
   });
 

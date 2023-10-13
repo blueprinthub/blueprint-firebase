@@ -24,6 +24,7 @@ export interface Config {
   jira: OAuth2Config;
   github: OAuth2Config;
   asana: OAuth2Config;
+  google: OAuth2Config;
 }
 
 export function configFactory(): ConfigService {
@@ -47,6 +48,11 @@ export function configFactory(): ConfigService {
       clientId: env.ASANA_CLIENT_ID || "",
       clientSecret: env.ASANA_CLIENT_SECRET || "",
       redirectURI: env.ASANA_REDIRECT_URI || "",
+    },
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID || "",
+      clientSecret: env.GOOGLE_CLIENT_SECRET || "",
+      redirectURI: env.GOOGLE_REDIRECT_URI || "",
     },
   };
 

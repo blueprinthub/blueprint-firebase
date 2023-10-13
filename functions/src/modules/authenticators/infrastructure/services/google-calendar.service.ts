@@ -7,38 +7,40 @@ import { UserData } from "../../domain/entities/user-data.entity";
 import { OAuth2Repository } from "../../domain/repositories/oauth2.repository";
 
 /**
- * An OAuth2 strategy for Asana.
+ * An OAuth2 strategy for Google.
  */
-export class AsanaOAuthStrategy implements OAuth2Repository {
+export class GoogleOAuthStrategy implements OAuth2Repository {
   constructor(private readonly config: ConfigService) {}
 
   /**
-   * Claims access to Asana.
+   * Claims access to Jira.
    *
    * @param claim - The OAuth claim.
    * @returns An access object.
    */
   async claimAccess(claim: OAuthClaim): Promise<Omit<Access, "user">> {
     const { data } = await axios.post(
-      "https://app.asana.com/-/oauth_token",
+      "https://oauth2.googleapis.com/token",
       {
         grant_type: "authorization_code",
-        client_id: this.config.get<string>("asana.clientId"),
-        client_secret: this.config.get<string>("asana.clientSecret"),
-        redirect_uri: this.config.get<string>("asana.redirectURI"),
+        client_id: this.config.get<string>("google.clientId"),
+        client_secret: this.config.get<string>("google.clientSecret"),
+        redirect_uri: this.config.get<string>("google.redirectURI"),
         code: claim.code,
       },
       {
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
         },
       },
     );
+    console.log(data);
     return {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
-      platformName: "asana",
-      type: AuthenticatorType.Task,
+      platformName: "google-calendar",
+      type: AuthenticatorType.Event,
     };
   }
 
@@ -49,15 +51,16 @@ export class AsanaOAuthStrategy implements OAuth2Repository {
    * @returns The user data.
    */
   async getUser(access: Omit<Access, "user">): Promise<UserData> {
-    const { data } = await axios.get("https://app.asana.com/api/1.0/users/me", {
+    const { data } = await axios.get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
       headers: {
         Authorization: `Bearer ${access.accessToken}`,
       },
     });
+    console.log(data);
     return {
-      gid: data.data.gid,
-      email: data.data.email,
-      name: data.data.name,
+      gid: data.id,
+      email: data.email,
+      name: data.name,
     };
   }
 }
