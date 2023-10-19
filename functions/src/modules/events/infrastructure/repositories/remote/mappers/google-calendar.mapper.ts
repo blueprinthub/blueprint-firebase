@@ -30,8 +30,7 @@ export class GoogleCalendarMapper implements Mapper<GoogleCalendarEvent> {
         displayName: att.displayName || "",
         email: att.email || "",
       };
-      const status: AttendantStatus =
-        AttendantStatus[att.responseStatus as keyof typeof AttendantStatus] || AttendantStatus.NeedsAction;
+      const status = (att.responseStatus as AttendantStatus) || AttendantStatus.NeedsAction;
       attendees.set(user, status);
     });
 
