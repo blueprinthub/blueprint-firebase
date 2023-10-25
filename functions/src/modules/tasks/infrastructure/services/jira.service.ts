@@ -97,9 +97,9 @@ export class JiraRemoteRepository extends AbstractRemoteRepository<JiraTask> {
  * Convert a Jira API issue object to a Task object. In Jira, the description
  * of a field can be separated in multiple parts, so this way we join all the
  * pieces in a single string, separated by new lines or paragraphs if necessary.
- * @param {JiraDescription} descriptionField the description field from the Jira
+ * @param descriptionField - the description field from the Jira
  * API response
- * @return {string} the description of the task
+ * @returns the description of the task
  */
 function fromJiraApiDescriptionToString(descriptionField?: JiraDescription): string {
   let description: string;
@@ -114,7 +114,7 @@ function fromJiraApiDescriptionToString(descriptionField?: JiraDescription): str
         if (!content) {
           return "";
         }
-        return content.map((e) => (e.text as string) ?? "").join("\n");
+        return content.map((e) => e.text ?? "").join("\n");
       })
       .join("\r");
   }
@@ -123,8 +123,8 @@ function fromJiraApiDescriptionToString(descriptionField?: JiraDescription): str
 }
 /**
  * Convert a Jira API status object to a Status object.
- * @param {Record<string,string>} priority the api priority object
- * @return {Priority} a number representing the priority of the task.
+ * @param priority - the api priority object
+ * @returns a number representing the priority of the task.
  * That number is 1|2|3|4|5.
  */
 function fromJiraApiPriorityToPriority(priority?: Record<string, string>): Priority {
@@ -142,8 +142,8 @@ function fromJiraApiPriorityToPriority(priority?: Record<string, string>): Prior
 }
 /**
  * Convert a Jira API status object to a Status object.
- * @param {Record<string,string>} status the api status object
- * @return {Label} a label representing the status of the task.
+ * @param status - the api status object
+ * @returns  a label representing the status of the task.
  */
 function fromJiraApiStatusToStatus(status?: Record<string, any>): Label {
   if (status == null) {
@@ -168,8 +168,8 @@ function fromJiraApiStatusToStatus(status?: Record<string, any>): Label {
  * Since we can't support all the colors, we are just supporting the ones
  * that are used in the Jira Cloud UI and defaulting to an specific color
  * if the color is not found.
- * @param {string} name the name of the color
- * @return {string} the hex code of the color associated with the given name
+ * @param name - the name of the color
+ * @returns the hex code of the color associated with the given name
  * or a default color if the color is not found.
  */
 function getColorHexByName(name: string): string {

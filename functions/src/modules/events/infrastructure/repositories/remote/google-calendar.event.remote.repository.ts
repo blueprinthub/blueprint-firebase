@@ -38,9 +38,19 @@ export class GoogleCalendarEventRemoteRepository extends BaseEventRemoteReposito
         singleEvents: true,
         orderBy: "startTime",
       });
+      const colors = await calendarAPIClient.colors.get();
 
       const gCalendarEvents = response.data.items;
-      return gCalendarEvents || [];
+      const coloredEvents = gCalendarEvents?.map((event) => {
+        const colorId = event.colorId;
+        const color = colorId ? colors.data.event?.[colorId]?.background : undefined;
+        return {
+          ...event,
+          colorId: color,
+        };
+      });
+
+      return coloredEvents || [];
     } catch (error) {
       console.log("Error: ", error);
       // Depending on the error we might return different
