@@ -44,10 +44,12 @@ const seedFirestore = async () => {
     },
   ];
 
+  console.info("Seeding Platforms Started");
   // save platforms
   await db.collection("platforms").doc("jira").set(platforms[0]);
   await db.collection("platforms").doc("github").set(platforms[1]);
   await db.collection("platforms").doc("google-calendar").set(platforms[2]);
+  console.log("Seeding Platforms Complete");
 };
 
 seedFirestore();
